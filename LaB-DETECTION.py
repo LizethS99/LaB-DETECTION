@@ -6,7 +6,7 @@ from customtkinter import CTk, CTkFrame, CTkButton, CTkEntry, CTkLabel
 from tkinter import PhotoImage, Frame, Label, Button, messagebox, scrolledtext
 import os
 import sys
-import GenerarImagen 
+import Forms 
 
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
@@ -126,7 +126,7 @@ def button_function():
             print("Los términos y condiciones ya se han aceptado.")
             def Pantalla(screen):
                 screen.destroy()
-                pantallanueva = GenerarImagen.NewPantalla()
+                pantallanueva = Forms.NewPantalla()
         Pantalla(app)
     mostrar_ventana_terminos()
 
