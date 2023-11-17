@@ -84,7 +84,7 @@ def PantallaImagen():
         print("Push Button")
 
     def Seleccionar_Imagen(label):
-        #melanoma_model = load_model('Melanoma_model\MelanomaModelV1.h5')
+        melanoma_model = load_model('MelanomaModelV1.h5')
         print("Push Button")
         file_path = filedialog.askopenfilename()
         print(file_path)
