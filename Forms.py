@@ -1,11 +1,13 @@
-#Seleccionar imagen o tomarla desde la cámara
+#FORMULARIO
 import tkinter
 from tkinter import *
 import customtkinter
 from PIL import ImageTk, Image
 from customtkinter import CTk, CTkFrame, CTkButton, CTkEntry, CTkLabel
-from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext
+from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, messagebox
+import sys
 import os
+import CapturarImagen 
 def NewPantalla():
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
@@ -334,22 +336,29 @@ def NewPantalla():
     def menu():
         f1 = Frame(app2, width=150, height=900, bg=color)
         f1.place(x=0, y=0)
-        def Botones(x,y,text,bcolor,fcolor):
+        def Botones(x,y,text,bcolor,fcolor, funcion):
             def on_enter(e):
                 mybutton1['background'] = bcolor
                 mybutton1['foreground'] = fcolor
             def on_leave(e):
                 mybutton1['background'] = fcolor
                 mybutton1['foreground'] = bcolor
-            mybutton1 = Button(f1, width=22, height=2, text=text, fg=bcolor, border=2, bg=fcolor, activebackground=bcolor, activeforeground=fcolor, command=None)
+            mybutton1 = Button(f1, width=22, height=2, text=text, fg=bcolor, border=2, bg=fcolor, activebackground=bcolor, activeforeground=fcolor, command=funcion)
             mybutton1.bind("<Enter>", on_enter)
             mybutton1.bind("<Leave>", on_leave)
             mybutton1.place(x=x, y=y)
-        Botones(0, 50, 'Acerca de', color4,color2)
-        Botones(0, 90, 'Cáncer de piel', color4,color2)
-        Botones(0, 130, 'Redes neuronales', color4,color2)
-        Botones(0, 170, 'Nuevo análisis', color4,color2)
-        Botones(0, 210, 'Salir', color4,color2)
+        def nuevo_analisis(screen):
+            screen.destroy()
+            pantallanueva2 = CapturarImagen.PantallaImagen()
+        def salir():
+            messagebox.showinfo("Salir", "Vuelva pronto")
+            sys.exit(0)
+        
+        Botones(0, 50, 'Acerca de', color4,color2, None)
+        Botones(0, 90, 'Cáncer de piel', color4,color2, None)
+        Botones(0, 130, 'Redes neuronales', color4,color2, None)
+        Botones(0, 170, 'Nuevo análisis', color4,color2, nuevo_analisis(app2))
+        Botones(0, 210, 'Salir', color4,color2, salir)
 
         def dele():
             f1.destroy()

@@ -117,5 +117,6 @@ def PantallaImagen():
      
 
     app3.mainloop()
+    return app3
 
-PantallaImagen()
+#PantallaImagen()
