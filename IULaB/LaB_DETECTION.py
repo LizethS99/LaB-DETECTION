@@ -60,7 +60,7 @@ def funcion_principal():
             for widget in screen.winfo_children():
                 widget.destroy()
 
-            pantallanueva3 = Acercade.Acerca_de(imagen1, imagen2)
+            pantallanueva3 = Acercade.Acerca_de(app, imagen1, imagen2)
 
         Botones(0, 50, 'Acerca de', color4,color2, 1, lambda: Aboutus(app, ruta, ruta2))
         Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
