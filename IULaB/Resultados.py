@@ -92,8 +92,8 @@ def PantallaImagen():
         canvas_pdf = tkinter.Canvas(app5, bg="white", width=380, height=500)
         canvas_pdf.place(relx=0.6, rely=0.07)
 
-        def cargar_imagen():
-            imagen_path = ".\imagen.png"
+        """def cargar_imagen():
+            imagen_path = ".\\Nuevaimg.png"
             if imagen_path:
                 imagen = Image.open(imagen_path)
                 imagen = imagen.resize((300, 250), Image.ANTIALIAS)
@@ -101,10 +101,10 @@ def PantallaImagen():
                 canvas_imagen.config(width=300, height=250)
                 canvas_imagen.create_image(0, 0, anchor=tkinter.NW, image=imagen_tk)
                 canvas_imagen.image = imagen_tk
-        cargar_imagen()
+        cargar_imagen()"""
 
         def cargar_pdf():
-            pdf_path = "./30.pdf"
+            pdf_path = ".\\CT.pdf"
             if pdf_path:
                 visor_pdf = fitz.open(pdf_path)
                 primera_pagina = visor_pdf.load_page(0)
