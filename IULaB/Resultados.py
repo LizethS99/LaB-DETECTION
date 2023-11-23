@@ -10,7 +10,7 @@ import os
 import fitz  # PyMuPDF
 #from keras.models import load_model
 
-def PantallaImagen():
+def Res(file):
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
 
@@ -92,16 +92,16 @@ def PantallaImagen():
         canvas_pdf = tkinter.Canvas(app5, bg="white", width=380, height=500)
         canvas_pdf.place(relx=0.6, rely=0.07)
 
-        """def cargar_imagen():
-            imagen_path = ".\\Nuevaimg.png"
+        def cargar_imagen():
+            imagen_path = file
             if imagen_path:
                 imagen = Image.open(imagen_path)
-                imagen = imagen.resize((300, 250), Image.ANTIALIAS)
+                imagen = imagen.resize((300, 250), resample=Image.Resampling.LANCZOS)
                 imagen_tk = ImageTk.PhotoImage(imagen)
                 canvas_imagen.config(width=300, height=250)
                 canvas_imagen.create_image(0, 0, anchor=tkinter.NW, image=imagen_tk)
                 canvas_imagen.image = imagen_tk
-        cargar_imagen()"""
+        cargar_imagen()
 
         def cargar_pdf():
             pdf_path = ".\\CT.pdf"
@@ -110,7 +110,7 @@ def PantallaImagen():
                 primera_pagina = visor_pdf.load_page(0)
                 pix = primera_pagina.get_pixmap(matrix=fitz.Matrix(1, 1))
                 imagen = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                imagen = imagen.resize((380, 500), Image.ANTIALIAS)
+                imagen = imagen.resize((380, 500), resample=Image.Resampling.LANCZOS)
                 imagen_tk = ImageTk.PhotoImage(imagen)
                 canvas_pdf.config(width=380, height=500)
                 canvas_pdf.create_image(0, 0, anchor=tkinter.NW, image=imagen_tk)
@@ -155,6 +155,6 @@ def PantallaImagen():
      
 
     app5.mainloop()
-    #return app5
+    return app5
 
-PantallaImagen()
+#Res()
