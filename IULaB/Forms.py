@@ -15,7 +15,7 @@ def NewPantalla():
 
     color = '#003F79' # color menú lateral
     color2 = '#122E60' #Azul muy oscuro
-    #color3 = '#48F0FA' #Azul muy claro
+    color3 = '#48F0FA' #Azul muy claro
     color4 = '#E8FBFC' #Letras en los botones
     color5 = '#0D2764'
     color6 = '#2E6FAC'
@@ -332,9 +332,12 @@ def NewPantalla():
             rad_3 = tkinter.Radiobutton(canvas, text=option, variable=selectoption_3, value=option, background="#73B62D", font= ("Helvetica", 13))
             canvas.create_window((240+(i*130), 300+i), window=rad_3, anchor='w')
         
-
+    def Siguiente(screen):
+        screen.destroy()
+        capturar_img = CapturarImagen.capturar()
        
-        
+    button_siguiente = CTkButton(master=app2, text="Siguiente", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:Siguiente(app2))
+    button_siguiente.place(relx=0.78, rely=0.936, anchor= tkinter.CENTER)    
 
     def menu():
         f1 = Frame(app2, width=150, height=900, bg=color)
@@ -358,7 +361,7 @@ def NewPantalla():
             
         def nuevo_analisis(screen):
             screen.destroy()
-            pantallanueva2 = CapturarImagen
+            pantallanueva2 = CapturarImagen.capturar()
 
 
         Botones(0, 50, 'Acerca de', color4,color2, None)
