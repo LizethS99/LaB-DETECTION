@@ -7,8 +7,8 @@ from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, filedia
 import os
 import numpy as np
 import cv2
-import Resultados
 import CapturarImagen
+import clasificacion
 def confirmar_imagen(nfile):
     color3 = '#48F0FA'
     color5 = '#0D2764'
@@ -53,7 +53,8 @@ def confirmar_imagen(nfile):
         texto = "Espere un momento, los resultados se están obteniendo."    
         messagebox.showinfo("Cargando...", texto)
         ventana_confirmar.destroy()
-        pantallanueva = Resultados.Res(nfile)
+        clasific = clasificacion.clasificacion_imagen()
+        #pantallanueva = Resultados.Res(nfile)
 
     button_nuevo = CTkButton(master=ventana_confirmar, text="Nueva Imagen", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:NImage())
     button_nuevo.place(relx=0.28, rely=0.88, anchor= tkinter.CENTER) 
@@ -62,6 +63,6 @@ def confirmar_imagen(nfile):
     button_continuar.place(relx=0.78, rely=0.88, anchor= tkinter.CENTER) 
     
     ventana_confirmar.mainloop()
-    return ventana_confirmar
-#nfile = 'E:/TT2/gato.jpeg'
-#confirmar_imagen(nfile)
+    #return ventana_confirmar
+nfile = 'E:/TT2/gato.jpeg'
+confirmar_imagen(nfile)
