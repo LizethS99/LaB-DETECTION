@@ -358,7 +358,7 @@ def NewPantalla():
             
         def nuevo_analisis(screen):
             screen.destroy()
-            pantallanueva2 = CapturarImagen.PantallaImagen()
+            pantallanueva2 = CapturarImagen
 
 
         Botones(0, 50, 'Acerca de', color4,color2, None)
