@@ -8,6 +8,7 @@ import os
 import numpy as np
 import cv2
 import confirmar
+from ultralytics import YOLO
 #from keras.models import load_model
 
 def capturar():
@@ -105,7 +106,7 @@ def capturar():
     labelButton = CTkLabel(app3, image=img_camara, text='', bg_color="#00042A")
     labelButton.pack()
     labelButton.place(relx=0.3, rely=0.35)
-    button = customtkinter.CTkButton(master=app3, text="Capturar Imagen", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=Captura_Imagen)
+    button = customtkinter.CTkButton(master=app3, text="Capturar Imagen", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:Captura_Imagen)
     button.place(relx=0.38, rely=0.7, anchor= tkinter.CENTER) 
 
     ############################################################
@@ -126,5 +127,5 @@ def capturar():
 
     app3.mainloop()
 
-    return app3
-#capturar()
+    #return app3
+capturar()
