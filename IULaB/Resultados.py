@@ -3,14 +3,15 @@ from tkinter import *
 import customtkinter
 from PIL import ImageTk, Image
 from customtkinter import CTk, CTkFrame, CTkButton, CTkEntry, CTkLabel
-from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext
+from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, messagebox
 from tkinter import filedialog  as fd #Ventanas de dialogo
 from tkinter import messagebox as mb
 import os
 import fitz  # PyMuPDF
+from ultralytics import YOLO
 #from keras.models import load_model
 
-def Res(file):
+def Res(file, pdf):
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
 
@@ -34,7 +35,6 @@ def Res(file):
     app5.iconbitmap("Images\logo.ico")
     fondo = PhotoImage(file='Images\\fondo.png')
     lbl_fondo = CTkLabel(app5, image=fondo, text='').place(x=0, y=0)
-    
 
 
     def menu():
@@ -74,6 +74,9 @@ def Res(file):
     img1 = ImageTk.PhotoImage(imagen_nueva2)
     Button(app5, image=img1, border=0, activebackground=color, bg=color, command=menu, cursor="hand2").place(x=15, y=15)
 
+    texto = "Generando pdf, esto puede tardar unos minutos."    
+    messagebox.showinfo("Cargando...", texto)
+
     def default_home():
         #tam = (70,30)
         #nimg = imagen_logo.resize(tam)
@@ -87,6 +90,7 @@ def Res(file):
          # Mostrar previsualización de imagen
         canvas_imagen = tkinter.Canvas(app5, bg="white", width=300, height=250)
         canvas_imagen.place(relx=0.15, rely=0.35)
+
 
         # Mostrar previsualización del primer documento del PDF
         canvas_pdf = tkinter.Canvas(app5, bg="white", width=380, height=500)
@@ -103,8 +107,15 @@ def Res(file):
                 canvas_imagen.image = imagen_tk
         cargar_imagen()
 
+        model = YOLO('./runs/runs/classify/train6/weights/best.pt')
+        result = model.predict(file, imgsz = 640)
+        boxes = result[0].plot()
+        texto = "Los detalles del resultado puede encontrarlos en el PDF que se muestra a su derecha"
+        Res = CTkLabel(app5,text=texto, bg_color='white', fg_color=color5) 
+        Res.place(relx=0.4, rely=0.07)
+
         def cargar_pdf():
-            pdf_path = ".\\CT.pdf"
+            pdf_path = pdf
             if pdf_path:
                 visor_pdf = fitz.open(pdf_path)
                 primera_pagina = visor_pdf.load_page(0)
@@ -156,5 +167,5 @@ def Res(file):
 
     app5.mainloop()
     return app5
-
-#Res()
+#img = "IMD004.bmp" 
+#Res(img)
