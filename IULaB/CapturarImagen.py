@@ -8,6 +8,7 @@ import os
 import numpy as np
 import cv2
 import confirmar
+import CamaraImagen 
 #from keras.models import load_model
 
 def capturar():
@@ -87,6 +88,8 @@ def capturar():
 
     def Captura_Imagen():
         print("Push Button")
+        app3.destroy()
+        capturaImage = CamaraImagen.Camara_Imagen()
 
     def Seleccionar_Imagen():
         print("Push Button")

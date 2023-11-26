@@ -51,8 +51,8 @@ def NewPantalla():
         tab3 = Frame(notebook, background="#CDFA9F", border=10)
 
         notebook.add(tab1, text='       HEREDOFAMILIAR       ')
-        notebook.add(tab2, text='       PATOLOGICO       ')
-        notebook.add(tab3, text='       NO PATOLOGICO       ')
+        notebook.add(tab2, text='       PATOLÓGICO       ')
+        notebook.add(tab3, text='       NO PATOLÓGICO       ')
 
         # Formulario 1
         formulario_frame = tkinter.Frame(tab1, background=color)

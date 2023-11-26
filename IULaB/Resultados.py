@@ -74,7 +74,7 @@ def Res(file, pdf):
     img1 = ImageTk.PhotoImage(imagen_nueva2)
     Button(app5, image=img1, border=0, activebackground=color, bg=color, command=menu, cursor="hand2").place(x=15, y=15)
 
-    texto = "Generando pdf, esto puede tardar unos minutos."    
+    texto = "Generando pdf, esto puede tardar unos minutos. La pantalla de resultados aparecerá cuando termine el proceso"   
     messagebox.showinfo("Cargando...", texto)
 
     def default_home():
@@ -111,8 +111,8 @@ def Res(file, pdf):
         result = model.predict(file, imgsz = 640)
         boxes = result[0].plot()
         texto = "Los detalles del resultado puede encontrarlos en el PDF que se muestra a su derecha"
-        Res = CTkLabel(app5,text=texto, bg_color='white', fg_color=color5) 
-        Res.place(relx=0.4, rely=0.07)
+        Res = CTkLabel(app5,text=texto, bg_color='white', fg_color="#050c2d") 
+        Res.place(relx=0.55, rely=0.07)
 
         def cargar_pdf():
             pdf_path = pdf
