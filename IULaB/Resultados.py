@@ -9,6 +9,7 @@ from tkinter import messagebox as mb
 import os
 import fitz  # PyMuPDF
 from ultralytics import YOLO
+from claseCentrar import centerScreen
 #from keras.models import load_model
 
 def Res(file, pdf):
@@ -23,7 +24,8 @@ def Res(file, pdf):
     color6 = '#2E6FAC'
 
     app5 = customtkinter.CTk()
-    app5.geometry('1200x700+250+110') #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
+    centro = centerScreen()
+    app5.geometry(centro.situarLaB(1200,700)) #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
     app5.minsize(1100,700)
     app5.maxsize(1400, 700)
     app5.config(bg=color5)
@@ -135,7 +137,9 @@ def Res(file, pdf):
     def guardar_Imagen():
         print("Push Button")
         ventana_guardar = CTk()
-        ventana_guardar.geometry('600x250+530+310')
+        centro = centerScreen()
+        ventana_guardar.geometry(centro.situarLaB(600,200))
+        ventana_guardar.iconbitmap("Images\logo.ico")
         ventana_guardar.title("Ventana Guardar")
         ventana_guardar.config(bg=color5)
 

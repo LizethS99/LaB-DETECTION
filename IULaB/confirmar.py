@@ -9,13 +9,17 @@ import numpy as np
 import cv2
 import CapturarImagen
 import crearpdf
+from claseCentrar import centerScreen
+
 def confirmar_imagen(nfile):
     color3 = '#48F0FA'
     color5 = '#0D2764'
     ventana_confirmar = CTk()
-    ventana_confirmar.geometry('700x500+400+210') #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
+    centro = centerScreen()
+    ventana_confirmar.geometry(centro.situarLaB(700,500)) #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
     ventana_confirmar.config(bg=color5)
     ventana_confirmar.title('Confirmar')
+    ventana_confirmar.iconbitmap("Images\logo.ico")
     
     lbl_text= Label(ventana_confirmar, text= "¿Esta es la imagen que desea análizar?", background=color5, fg='white', font= ("Helvetica", 20)).place(x=100, y=30)
 

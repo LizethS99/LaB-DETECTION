@@ -9,6 +9,7 @@ import numpy as np
 import cv2
 import confirmar
 import CamaraImagen 
+from claseCentrar import centerScreen
 #from keras.models import load_model
 
 def capturar():
@@ -23,7 +24,8 @@ def capturar():
     color6 = '#2E6FAC'
 
     app3 = customtkinter.CTk()
-    app3.geometry('1200x700+250+110') #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
+    centro = centerScreen()
+    app3.geometry(centro.situarLaB(1200,700)) #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
     app3.minsize(1100,700)
     app3.maxsize(1400, 700)
     app3.config(bg=color5)

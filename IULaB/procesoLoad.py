@@ -1,3 +1,4 @@
+from win32api import GetSystemMetrics
 import tkinter as tk
 from math import cos, sin, radians
 import threading
@@ -9,13 +10,24 @@ from customtkinter import CTk, CTkFrame, CTkButton, CTkEntry, CTkLabel
 colors = ["#00f9c4", "#00ff00", "#ff1844", "#100b79", "#50e910", "#ffb250"]
 
 class PantallaCarga:
-    def __init__(self, root):
+    def situarLaB(self, AnchoLaB, AltoLaB):
+        halfSx, halfSy = GetSystemMetrics(0), GetSystemMetrics(1)
+        Lx = AnchoLaB
+        Ly = AltoLaB
+
+        x = halfSx/2 - AnchoLaB/2
+        y = halfSy/2 - AltoLaB/2
+
+        return f"{AnchoLaB}x{AltoLaB}+{int(x)}+{int(y)}" #700x500
+    
+    def __init__(self, root, texto):
         customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
         customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
         global image, photo
         self.root = root
         self.root.title("Pantalla de Carga")
-        self.root.geometry("300x235")
+        self.root.geometry(self.situarLaB(300,235))
+        self.root.iconbitmap("Images\logo.ico")
 
         # Cargar la imagen de fondo
         image = Image.open("./Images/fondoCarga.png")
@@ -24,7 +36,7 @@ class PantallaCarga:
         self.canvas = tk.Canvas(root, width=300, height=235, bg="#000c5d")
         self.canvas.create_image(0, 0, anchor="nw", image=photo)
         self.canvas.pack()
-        self.label=tk.Label(self.canvas, text="Iniciando cámara...",font=("Arial",15), fg="white",bg="#000c5d", highlightcolor="yellow1").place(x=70, y=194)
+        self.label=tk.Label(self.canvas, text=texto,font=("Arial",15), fg="white",bg="#000c5d", highlightcolor="yellow1").place(x=70, y=194)
         
         # Variables para la animación
         self.radio_circunferencia = 80
@@ -40,6 +52,8 @@ class PantallaCarga:
 
         # Configurar la función de cierre de la ventana
         self.root.protocol("WM_DELETE_WINDOW", self.cerrar_ventana)
+    
+    
 
     def simular_carga(self):
         changeColors = 0
@@ -69,9 +83,11 @@ class PantallaCarga:
             self.root.destroy()
 
 # Crear la aplicación
-root = customtkinter.CTk()
-app = PantallaCarga(root)
-root.mainloop()
+massages = ["Cargando PDF...", "Inciando Cámara...", "Analizando imagen..."]
+for i in massages:
+    root = customtkinter.CTk()
+    app = PantallaCarga(root, i)
+    root.mainloop()
 
 # Aquí puedes continuar con el código principal de tu aplicación después de que la carga ha terminado
 print("Proceso de carga completado. Continuar con el resto del código.")

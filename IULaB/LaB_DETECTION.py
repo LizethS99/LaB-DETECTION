@@ -8,6 +8,8 @@ import os
 import sys
 import Forms 
 import Acercade
+from win32api import GetSystemMetrics
+from claseCentrar import centerScreen
 
 def funcion_principal():
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
@@ -21,7 +23,8 @@ def funcion_principal():
     color5 = '#0D2764'
 
     app = customtkinter.CTk()
-    app.geometry('1200x700+250+110') #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
+    centro = centerScreen()
+    app.geometry(centro.situarLaB(1200,700)) #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
     app.minsize(1100,700)
     app.maxsize(1400, 700)
     app.config(bg=color5)

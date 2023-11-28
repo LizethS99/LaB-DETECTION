@@ -9,6 +9,7 @@ import sys
 import os
 import CapturarImagen 
 import Acercade
+from claseCentrar import centerScreen
 def NewPantalla():
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
@@ -19,9 +20,9 @@ def NewPantalla():
     color4 = '#E8FBFC' #Letras en los botones
     color5 = '#0D2764'
     color6 = '#2E6FAC'
-
+    centro = centerScreen()
     app2 = customtkinter.CTk()
-    app2.geometry('1200x700+250+110') #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
+    app2.geometry(centro.situarLaB(1200,700)) #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
     app2.minsize(1100,700)
     app2.maxsize(1400, 700)
     app2.config(bg=color5)
