@@ -10,6 +10,9 @@ import os
 import fitz  # PyMuPDF
 from ultralytics import YOLO
 from claseCentrar import centerScreen
+import Forms 
+import sys
+import LaB_DETECTION
 #from keras.models import load_model
 
 def Res(file, pdf):
@@ -42,22 +45,40 @@ def Res(file, pdf):
     def menu():
         f1 = Frame(app5, width=150, height=900, bg=color)
         f1.place(x=0, y=0)
-        def Botones(x,y,text,bcolor,fcolor):
+        def Botones(x,y,text,bcolor,fcolor, op, funcion):
             def on_enter(e):
                 mybutton1['background'] = bcolor
                 mybutton1['foreground'] = fcolor
             def on_leave(e):
                 mybutton1['background'] = fcolor
                 mybutton1['foreground'] = bcolor
-            mybutton1 = Button(f1, width=22, height=2, text=text, fg=bcolor, border=2, bg=fcolor, activebackground=bcolor, activeforeground=fcolor, command=None)
-            mybutton1.bind("<Enter>", on_enter)
-            mybutton1.bind("<Leave>", on_leave)
+            mybutton1 = Button(f1, width=22, height=2, text=text, fg=bcolor, border=2, bg=fcolor, activebackground=bcolor, activeforeground=fcolor, command=lambda: funcion(), cursor="hand2")
+            if op ==1:
+                mybutton1.configure(fg=bcolor)
+                mybutton1.bind("<Enter>", on_enter)
+                mybutton1.bind("<Leave>", on_leave)
+            else:
+                mybutton1.configure(fg="#595959", state="disabled")
             mybutton1.place(x=x, y=y)
-        Botones(0, 50, 'Acerca de', color4,color2)
-        Botones(0, 90, 'Cáncer de piel', color4,color2)
-        Botones(0, 130, 'Redes neuronales', color4,color2)
-        Botones(0, 170, 'Nuevo análisis', color4,color2)
-        Botones(0, 210, 'Salir', color4,color2)
+
+        def salir():
+            messagebox.showinfo("Salir", "Vuelva pronto")
+            sys.exit(0)
+
+        def NPantalla(screen):
+            screen.destroy()
+            nuevo_analisis = Forms.NewPantalla()
+
+        def Home(screen):
+            screen.destroy()
+            pantalla_main = LaB_DETECTION.funcion_principal()
+        
+        Botones(0, 50, 'Acerca de', color4,color2, 1, None)
+        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
+        Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
+        Botones(0, 170, 'Nuevo análisis', color4,color2, 1, lambda: NPantalla(app5))
+        Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())
+        Botones(0, 250, 'Inicio', color4,color2, 1, lambda: Home(app5))
 
         def dele():
             f1.destroy()

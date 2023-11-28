@@ -22,7 +22,7 @@ def Camara_Imagen():
     model = YOLO('./runsSegmentation/train8/weights/best.pt')
 
     # Inicializar la cámara
-    video = cv2.VideoCapture(1)
+    video = cv2.VideoCapture(0)
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
     # Crear una ventana de Tkinter
@@ -67,7 +67,7 @@ def Camara_Imagen():
         captura=[]
         contCap=0
         tomarVideo=True
-        video = cv2.VideoCapture(1)
+        video = cv2.VideoCapture(0)
         app.destroy()
 
         update_frame()

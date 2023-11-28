@@ -36,46 +36,9 @@ def crear_pdf(file_path, nfile):
     histo = "Historial clínico:"
     elementos.append(Paragraph(histo, style=ParagraphStyle(name='Normal', fontSize=12)))
     elementos.append(Spacer(1, espacio))
-    explicacion = """Dentro de este espacio voy a poner todos los datos que se ingresaron desde el foormulario, la verdad es que todavía no sé cómo voy a lograr eso pero pues vemos. \nTambién quiero ver hasta dónde se escribe el texto y para completar ahí va una canción de
-    la Taylor, amonos Draw the cat eye, sharp enough to kill a man
-You did some bad things, but I'm the worst of them
-Sometimes I wonder which one will be your last lie
-They say looks can kill and I might try
-I don't dress for women
-I don't dress for men
-Lately I've been dressing for revenge
-I don't start it but I can tell you how it ends
-Don't get sad, get even
-So on the weekends
-I don't dress for friends
-Lately I've been dressing for revenge
-She needed cold hard proof so I gave her some
-She had the envelope, where you think she got it from?
-Now she gets the house, gets the kids, gets the pride
-Picture me thick as thieves with your ex-wife
-And she looks so pretty
-Driving in your Benz
-Lately she's been dressing for revenge
-She don't start it, but she can tell you how it ends
-Don't get sad, get even
-So on the weekends
-She don't dress for friends
-Lately she's been dressing for revenge
-Ladies always rise above
-Ladies know what people want
-Someone sweet and kind and fun
-The lady simply had enough
-While he was doing lines
-And crossing all of mine
-Someone told his white collar crimes to the FBI
-And I don't dress for villains
-Or for innocents
-I'm on my vigilante shh again
-I don't start it, but I can tell you how it ends
-Don't get sad, get even
-So on the weekends
-I don't dress for friends
-Lately I've been dressing for revenge"""
+    explicacion = """Las redes neuronales y su aplicación en el campo de la dermatología, especialmente en el diagnóstico del cáncer de piel, han emergido como una herramienta prometedora en la última década. Estas innovadoras técnicas computacionales han revolucionado la forma en que los profesionales médicos abordan la detección temprana y precisa de enfermedades cutáneas, incluido el melanoma, una forma agresiva de cáncer de piel.\n
+    Las redes neuronales, que forman parte del amplio campo de la inteligencia artificial, son modelos matemáticos inspirados en el funcionamiento del cerebro humano. Estos modelos son capaces de aprender patrones complejos y realizar tareas específicas a través de la exposición a grandes cantidades de datos. En el contexto del cáncer de piel, la capacidad de las redes neuronales para analizar imágenes dermatoscópicas con detalle y precisión ha llevado a avances significativos en la detección temprana de lesiones malignas.\n
+    La dermatoscopia, una técnica que implica la observación de la piel mediante un dispositivo de aumento, proporciona imágenes detalladas de las lesiones cutáneas. Las redes neuronales pueden ser entrenadas con conjuntos de datos extensos de imágenes dermatoscópicas, permitiéndoles aprender patrones sutiles que pueden indicar la presencia de melanoma u otras afecciones dermatológicas."""
     elementos.append(Paragraph(explicacion, style=ParagraphStyle(name='Normal', fontSize=12)))
     elementos.append(Spacer(1, espacio))
 
