@@ -88,3 +88,6 @@ class PantallaCarga:
         else:
             self.root.destroy()
 
+def imprimir():
+    print("Hola")
+screen = PantallaCarga("Hola",imprimir)

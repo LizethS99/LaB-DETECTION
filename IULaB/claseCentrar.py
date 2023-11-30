@@ -1,8 +1,9 @@
-from win32api import GetSystemMetrics
+from screeninfo import get_monitors
 
 class centerScreen:
     def situarLaB(self, AnchoLaB, AltoLaB):
-        halfSx, halfSy = GetSystemMetrics(0), GetSystemMetrics(1)
+        monitors = get_monitors()
+        halfSx, halfSy = monitors[0].width, monitors[0].height
         Lx = AnchoLaB
         Ly = AltoLaB
 

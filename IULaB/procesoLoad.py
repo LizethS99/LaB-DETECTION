@@ -1,4 +1,4 @@
-from win32api import GetSystemMetrics
+from screeninfo import get_monitors
 import tkinter as tk
 from math import cos, sin, radians
 import threading
@@ -11,7 +11,8 @@ colors = ["#00f9c4", "#00ff00", "#ff1844", "#100b79", "#50e910", "#ffb250"]
 
 class PantallaCarga:
     def situarLaB(self, AnchoLaB, AltoLaB):
-        halfSx, halfSy = GetSystemMetrics(0), GetSystemMetrics(1)
+        monitors = get_monitors()
+        halfSx, halfSy = monitors[0].width, monitors[0].height
         Lx = AnchoLaB
         Ly = AltoLaB
 
@@ -85,6 +86,6 @@ class PantallaCarga:
 
 # Crear la aplicación
 
-
+screen = PantallaCarga("Hola")
 # Aquí puedes continuar con el código principal de tu aplicación después de que la carga ha terminado
 print("Proceso de carga completado. Continuar con el resto del código.")
