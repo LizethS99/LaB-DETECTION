@@ -89,13 +89,17 @@ def Camara_Imagen():
         Gfile = os.path.dirname(__file__)+file
         nextStep = confirmar.confirmar_imagen(Gfile)
     def ventana_seleccion():
-        global captura, img, capturaR, tomarVideo
+        global captura, img, capturaR, tomarVideo, deteccion
+        deteccion = []
         tomarVideo=False
         video.release()
         ventana_foto = Toplevel(app_camera)
         ventana_foto.geometry(centro.situarLaB(700,600))
         ventana_foto.iconbitmap("Images\logo.ico")
         fondo2 = Label(ventana_foto, image=img)
+        for i in capturaR:
+            deteccion.append(model.predict(i,imgs=640)[0])
+        print(deteccion)
         fondo2.place(x=0, y=0)
         Label(ventana_foto, image=capturaR[0]).place(x=150, y=40)
         customtkinter.CTkButton(master=ventana_foto, text="Imagen 1", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[0],ventana_foto)).place(relx=0.36, rely=0.375, anchor= tkinter.CENTER)
@@ -107,7 +111,7 @@ def Camara_Imagen():
         customtkinter.CTkButton(master=ventana_foto, text="Imagen 4", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[3],ventana_foto)).place(relx=0.7, rely=0.77, anchor= tkinter.CENTER)
         customtkinter.CTkButton(master=ventana_foto, text="Nuevas Capturas", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:cancelarCaptura(ventana_foto)).place(relx=0.55, rely=0.93, anchor= tkinter.CENTER)
         strLabel = str(type(captura[0]))
-        Label(app_camera, text="Seleccione la mejor captura",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=210, y=30)
+        Label(ventana_foto, text="Lesiones detectadas",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=210, y=30)
     
 
     # Enlazar la función capturar_fotograma a la tecla "Espacio"
@@ -118,12 +122,8 @@ def Camara_Imagen():
         if tomarVideo == True:
             ret, frame = video.read()
 
-            # Realizar predicción con YOLO
-            resultado = model.predict(frame, imgsz=640, conf=0.3)
-            boxes = resultado[0].plot()
-
             # Convertir la imagen de OpenCV a formato compatible con Tkinter
-            img = Image.fromarray(cv2.cvtColor(boxes, cv2.COLOR_BGR2RGB))
+            img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             img_tk = ImageTk.PhotoImage(image=img)
 
             # Mostrar la imagen en el lienzo

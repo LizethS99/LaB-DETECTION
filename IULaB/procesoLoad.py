@@ -26,6 +26,8 @@ class PantallaCarga:
         customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
         global image, photo
         self.root = customtkinter.CTk()
+        #self.root.overrideredirect(1)
+        self.root.attributes('-toolwindow',-3)
         self.root.title("Pantalla de Carga")
         self.root.geometry(self.situarLaB(300,235))
         self.root.iconbitmap("Images\logo.ico")
@@ -86,6 +88,7 @@ class PantallaCarga:
 
 # Crear la aplicación
 
-screen = PantallaCarga("Hola")
+for i in range(2):
+    screen = PantallaCarga("Hola")
 # Aquí puedes continuar con el código principal de tu aplicación después de que la carga ha terminado
 print("Proceso de carga completado. Continuar con el resto del código.")

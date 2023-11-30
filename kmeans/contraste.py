@@ -1,7 +1,7 @@
 from PIL import Image
 
 # Converts image to grayscale
-inputImage = Image.open("IMD090.bmp").convert('L')   
+inputImage = Image.open("IMD004.bmp").convert('L')   
 outputImage = Image.new('L', inputImage.size)
 
 width, height = inputImage.size
