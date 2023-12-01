@@ -5,11 +5,14 @@ import customtkinter
 from PIL import ImageTk, Image
 from customtkinter import CTk, CTkFrame, CTkButton, CTkEntry, CTkLabel
 from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, messagebox
+from tkcalendar import Calendar
+from datetime import datetime
 import sys
 import os
 import CapturarImagen 
 import Acercade
 from claseCentrar import centerScreen
+import CapturarImagen
 def NewPantalla():
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
@@ -37,6 +40,12 @@ def NewPantalla():
     fondo = PhotoImage(file='Images\\fondo.png')
     lbl_fondo = CTkLabel(app2, image=fondo, text='').place(x=0, y=0)
 
+    global img
+    img = Image.open('Images\Cambiar_1.png')
+    img_tam2 = (45, 45)
+    img_nueva2 = img.resize(img_tam2)
+    n_img = ImageTk.PhotoImage(img_nueva2)
+    
     def formularios():
         #Pestañas para los formularios
         style = ttk.Style()
@@ -56,114 +65,188 @@ def NewPantalla():
         notebook.add(tab3, text='       NO PATOLÓGICO       ')
 
         # Formulario 1
-        formulario_frame = tkinter.Frame(tab1, background=color)
+        formulario_frame = tkinter.Frame(tab1, background="#4d7091")
         formulario_frame.pack(fill='both', expand=True)
         formulario_frame.place(relx=0, rely=0)
 
-        canvas = tkinter.Canvas(formulario_frame, background=color)
+        canvas = tkinter.Canvas(formulario_frame, background="#4d7091")
         scrollbar = tkinter.Scrollbar(formulario_frame, orient='vertical', command=canvas.yview, activebackground=color6, troughcolor="#D222D8", background=color6)
         
         canvas.config(yscrollcommand=scrollbar.set, width= 750, height=450, scrollregion=canvas.bbox("all"))
         canvas.pack(side='left', fill='both', expand=True)
         scrollbar.pack(side='right', fill='y')
 
-        subformulario_frame = tkinter.Frame(canvas, background=color)
+        subformulario_frame = tkinter.Frame(canvas, background="#4d7091")
         subformulario_frame.config(width= 750, height=450)
         canvas.create_window((0,0), window=subformulario_frame, anchor='nw')
         subformulario_frame.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
 
-        label1 = tkinter.Label(canvas, text='Nombre completo:', background=color, fg="white", font= ("Helvetica", 13), width=15) 
+        label1 = tkinter.Label(canvas, text='Nombre completo:', background="#4d7091", fg="white", font= ("Helvetica", 13), width=15) 
         entry1 = tkinter.Entry(canvas, width=60)
+        
         canvas.create_window((10, 30), window=label1, anchor='w')
         canvas.create_window((170, 30), window=entry1, anchor='w')
        
-        label2 = tkinter.Label(canvas, text='Edad:', background=color, fg="white", font= ("Helvetica", 13), width=15) 
+        label2 = tkinter.Label(canvas, text='Edad:', background="#4d7091", fg="white", font= ("Helvetica", 13), width=15) 
         entry2 = tkinter.Entry(canvas, width=10)
         canvas.create_window((5, 80), window=label2, anchor='w')
         canvas.create_window((170, 80), window=entry2, anchor='w')
     
 
-        label3 = tkinter.Label(canvas, text='Sexo:', background=color, fg="white", font= ("Helvetica", 13), width=15) 
+        label3 = tkinter.Label(canvas, text='Sexo:', background="#4d7091", fg="white", font= ("Helvetica", 13), width=15) 
         canvas.create_window((5, 130), window=label3, anchor='w')
         #Radiobuttons
         options = ["Femenino", "Masculino", "Otro"]
         select_option = tkinter.StringVar(value=options[0])
 
         # Crear estilo para los Radiobuttons sin resaltado en estado 'hover'
-        style.configure('TRadiobutton', background=color, foreground="black")
+        style.configure('TRadiobutton', background="#4d7091", foreground="black")
 
         for i, option in enumerate(options):
-            radio = tkinter.Radiobutton(canvas, text=option, variable=select_option, value=option, background=color, fg="black", activebackground="black", font= ("Helvetica", 13), width=7)
+            radio = tkinter.Radiobutton(canvas, text=option, variable=select_option, value=option, background="#4d7091", fg="black", activebackground="black", font= ("Helvetica", 13), width=7)
             #radio.grid(row=2+i, column=1, padx=3, pady=5, sticky='w')
             canvas.create_window((170+(i*130), 130+i), window=radio, anchor='w')
         entry3 = tkinter.Entry(canvas)
         canvas.create_window((550, 130), window=entry3, anchor='w')
 
-        label4 = tkinter.Label(canvas, text='¿Algún miembro de la familia ha sido diagnósticado previamente con melanoma?', background=color, fg="white", font= ("Helvetica", 13), width=70) 
-        canvas.create_window((35, 190), window=label4, anchor='w')
+        label0_1 = tkinter.Label(canvas, text='Médico que atiende:', background="#4d7091", fg="white", font= ("Helvetica", 13), width=20) 
+        entry0_1 = tkinter.Entry(canvas, width=60)
+        canvas.create_window((5, 180), window=label0_1, anchor='w')
+        canvas.create_window((200, 180), window=entry0_1, anchor='w')
+
+        label_fecha = tkinter.Label(canvas, text='Fecha:', background="#4d7091", fg="white", font= ("Helvetica", 13), width=15)
+        canvas.create_window((5, 280), window=label_fecha, anchor='w')
+
+        entry_fecha = tkinter.Entry(canvas)
+        canvas.create_window((170, 280), window=entry_fecha, anchor='w')
+
+        fecha_actual = datetime.now().date()
+        cal = Calendar(canvas, selectmode="day", date_pattern="yyyy-mm-dd", date_var=tkinter.StringVar(value=fecha_actual))
+        global lista
+        lista = []
+        def actualizar_fecha():
+            fecha_seleccionada_str = cal.get_date()
+            fecha_seleccionada = datetime.strptime(fecha_seleccionada_str, "%Y-%m-%d")
+            fecha_formateada = "{:02d}/{:02d}/{}".format(fecha_seleccionada.month, fecha_seleccionada.day, fecha_seleccionada.year)
+            entry_fecha.delete(0, "end")  # Limpiar el contenido actual
+            entry_fecha.insert(0, fecha_formateada)  # Insertar la nueva fecha formateada
+        
+        canvas.create_window((350, 300), window=cal, anchor='w')
+        #Para no revolverte, guarda lo que está en el entry_fecha, así no importa si cambia, tu solo recupera la fecha que esté ahí 
+        cal.bind("<<CalendarSelected>>", lambda event: actualizar_fecha())
+
+        label4 = tkinter.Label(canvas, text='¿Algún miembro de la familia ha sido diagnósticado previamente con melanoma?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((35, 430), window=label4, anchor='w')
         
         #Radiobuttons
         options2 = ["Si", "No"]
         select_option2 = tkinter.StringVar(value=options2[0])
-        style.configure('TRadiobutton', background=color, foreground="black")
+        style.configure('TRadiobutton', background="#4d7091", foreground="black")
 
         for i, option in enumerate(options2):
-            radio2 = tkinter.Radiobutton(canvas, text=option, variable=select_option2, value=option, background=color, font= ("Helvetica", 13))
-            canvas.create_window((170+(i*130), 240+i), window=radio2, anchor='w')
+            radio2 = tkinter.Radiobutton(canvas, text=option, variable=select_option2, value=option, background="#4d7091", font= ("Helvetica", 13))
+            canvas.create_window((170+(i*130), 480+i), window=radio2, anchor='w')
 
-        label5 = tkinter.Label(canvas, text='Si la respuesta es "Sí" en la pregunta anterior, ¿cuál es la relación familiar \ny cuándo fue el diagnóstico?', background=color, fg="white", font= ("Helvetica", 13), width=70) 
-        canvas.create_window((55, 290), window=label5, anchor='w')
+        label5 = tkinter.Label(canvas, text='Si la respuesta es "Sí" en la pregunta anterior, ¿cuál es la relación familiar \ny cuándo fue el diagnóstico?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((55, 530), window=label5, anchor='w')
         scroll_area = scrolledtext.ScrolledText(canvas, wrap=tkinter.WORD)
-        canvas.create_window((60, 380), window=scroll_area, anchor='w', width=620, height=100)
+        canvas.create_window((60, 580), window=scroll_area, anchor='w', width=620, height=100)
 
-        label6 = tkinter.Label(canvas, text='¿Hay antecendentes en usted o en su familia que haya llevado a cambios en el \ncomportamiento, como una mayor conciencia de protección solar?', background=color, fg="white", font= ("Helvetica", 13), width=70) 
-        canvas.create_window((55, 470), window=label6, anchor='w')
+        label6 = tkinter.Label(canvas, text='¿Hay antecendentes en usted o en su familia que haya llevado a cambios en el \ncomportamiento, como una mayor conciencia de protección solar?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((55, 630), window=label6, anchor='w')
 
         #Radiobuttons
         options3 = ["Si", "No"]
         select_option3 = tkinter.StringVar(value=options3[0])
-        style.configure('TRadiobutton', background=color, foreground="black")
+        style.configure('TRadiobutton', background="#4d7091", foreground="black")
 
         for i, option in enumerate(options3):
-            radio3 = tkinter.Radiobutton(canvas, text=option, variable=select_option3, value=option, background=color, font= ("Helvetica", 13))
-            canvas.create_window((170+(i*130), 520+i), window=radio3, anchor='w')
+            radio3 = tkinter.Radiobutton(canvas, text=option, variable=select_option3, value=option, background="#4d7091", font= ("Helvetica", 13))
+            canvas.create_window((170+(i*130), 680+i), window=radio3, anchor='w')
         
-        label7 = tkinter.Label(canvas, text='¿Existen otros tipos de cáncer en la familia que podrían estar relacionados con un \nmayor riesgo de melanoma? (Por ejemplo, cáncer de piel no melanoma,\n cáncer de mama, cáncer de páncreas, etc.)', background=color, fg="white", font= ("Helvetica", 13), width=70) 
-        canvas.create_window((55, 570), window=label7, anchor='w')
+        label7 = tkinter.Label(canvas, text='¿Existen otros tipos de cáncer en la familia que podrían estar relacionados con un \nmayor riesgo de melanoma? (Por ejemplo, cáncer de piel no melanoma,\n cáncer de mama, cáncer de páncreas, etc.)', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((55, 730), window=label7, anchor='w')
         #Radiobuttons
         options4 = ["Si", "No"]
         select_option4 = tkinter.StringVar(value=options4[0])
-        style.configure('TRadiobutton', background=color, foreground="black")
+        style.configure('TRadiobutton', background="#4d7091", foreground="black")
 
         for i, option in enumerate(options4):
-            radio4 = tkinter.Radiobutton(canvas, text=option, variable=select_option4, value=option, background=color, font= ("Helvetica", 13))
-            canvas.create_window((170+(i*130), 620+i), window=radio4, anchor='w')
+            radio4 = tkinter.Radiobutton(canvas, text=option, variable=select_option4, value=option, background="#4d7091", font= ("Helvetica", 13))
+            canvas.create_window((170+(i*130), 780+i), window=radio4, anchor='w')
         
-        label8 = tkinter.Label(canvas, text='¿Cuál?', background=color, fg="white", font= ("Helvetica", 13), width=20) 
-        canvas.create_window((0, 660), window=label8, anchor='w')
+        label8 = tkinter.Label(canvas, text='¿Cuál?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=20) 
+        canvas.create_window((0, 830), window=label8, anchor='w')
         entry8 = tkinter.Entry(canvas, width=30)
-        canvas.create_window((145, 660), window=entry8, anchor='w')
+        canvas.create_window((145, 830), window=entry8, anchor='w')
 
-        label9 = tkinter.Label(canvas, text='¿Se han realizado pruebas genéticas dentro de su familia para detectar mutaciones \nrelacionadas con el melanoma u otros cánceres?', background=color, fg="white", font= ("Helvetica", 13), width=70) 
-        canvas.create_window((55, 720), window=label9, anchor='w')
+        label9 = tkinter.Label(canvas, text='¿Se han realizado pruebas genéticas dentro de su familia para detectar mutaciones \nrelacionadas con el melanoma u otros cánceres?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((55, 880), window=label9, anchor='w')
         #Radiobuttons
         options5 = ["Si", "No"]
         select_option5 = tkinter.StringVar(value=options5[0])
-        style.configure('TRadiobutton', background=color, foreground="black")
+        style.configure('TRadiobutton', background="#4d7091", foreground="black")
 
         for i, option in enumerate(options5):
-            radio4 = tkinter.Radiobutton(canvas, text=option, variable=select_option5, value=option, background=color, font= ("Helvetica", 13))
-            canvas.create_window((170+(i*130), 770+i), window=radio4, anchor='w')
+            radio4 = tkinter.Radiobutton(canvas, text=option, variable=select_option5, value=option, background="#4d7091", font= ("Helvetica", 13))
+            canvas.create_window((170+(i*130), 940+i), window=radio4, anchor='w')
         
-        label10 = tkinter.Label(canvas, text='Si es así, ¿cuáles fueron los resultados?', background=color, fg="white", font= ("Helvetica", 13), width=40) 
-        canvas.create_window((40, 820), window=label10, anchor='w')
+        label10 = tkinter.Label(canvas, text='Si es así, ¿cuáles fueron los resultados?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=40) 
+        canvas.create_window((40, 990), window=label10, anchor='w')
         scroll_area2 = scrolledtext.ScrolledText(canvas, wrap=tkinter.WORD)
-        canvas.create_window((60, 900), window=scroll_area2, anchor='w', width=620, height=60)
+        canvas.create_window((60, 1050), window=scroll_area2, anchor='w', width=620, height=60)
 
-        label10 = tkinter.Label(canvas, text='¿Se conocen otros factores hereditarios que puedan aumentar el riesgo de melanona, \ncomo una predisposición genética a la sensibilidad solar o a la pigmentación de la piel?', background=color, fg="white", font= ("Helvetica", 13), width=70) 
-        canvas.create_window((40, 980), window=label10, anchor='w')
+        label10 = tkinter.Label(canvas, text='¿Se conocen otros factores hereditarios que puedan aumentar el riesgo de melanona, \ncomo una predisposición genética a la sensibilidad solar o a la pigmentación de la piel?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 1110), window=label10, anchor='w')
         scroll_area3 = scrolledtext.ScrolledText(canvas, wrap=tkinter.WORD)
-        canvas.create_window((60, 1060), window=scroll_area3, anchor='w', width=620, height=60)
+        canvas.create_window((60, 1160), window=scroll_area3, anchor='w', width=620, height=60)
+
+        def Datos_recabados_1():
+            
+            nombre = entry1.get()
+            lista.append(nombre)
+            edad = entry2.get()
+            lista.append(edad)
+            sexo = select_option.get()
+            if sexo == "Otro":
+                sexo2 = sexo
+                lista.append(sexo2)
+                otro = entry3.get()
+                lista.append(otro)
+            else :
+                lista.append(sexo)
+            medico = entry0_1.get()
+            lista.append(medico)
+            fecha = entry_fecha.get()
+            lista.append(fecha)
+            pregunta_familia = select_option2.get()
+            lista.append(pregunta_familia)
+            relacion_familiar = entry3.get()
+            lista.append(relacion_familiar)
+            diagnostico_familiar = scroll_area.get("1.0", "end-1c")
+            lista.append(diagnostico_familiar)
+            cambios_comportamiento = select_option3.get()
+            lista.append(cambios_comportamiento)
+            tipos_cancer = entry8.get()
+            lista.append(tipos_cancer)
+            pruebas_geneticas = select_option5.get()
+            lista.append(pruebas_geneticas)
+            resultados_pruebas = scroll_area2.get("1.0", "end-1c")
+            lista.append(resultados_pruebas)
+            factores_hereditarios = scroll_area3.get("1.0", "end-1c")
+            lista.append(factores_hereditarios)
+
+            if not all([nombre, edad, sexo, pregunta_familia, relacion_familiar, diagnostico_familiar, cambios_comportamiento, tipos_cancer, pruebas_geneticas, resultados_pruebas, factores_hereditarios  ]):
+                messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
+                return
+
+            # Cambiar a la siguiente pestaña
+            notebook.select(1)  # Cambiar el índice según sea necesario
+        # Asegúrate de asociar esta función al botón correspondiente
+        
+
+        boton_formulario_1 = Button(canvas, image=n_img, border=0, command=lambda: Datos_recabados_1(), cursor="hand2", activebackground="#4d7091", bg="#4d7091")
+        canvas.create_window((700, 1220), window=boton_formulario_1)
         #############################################################################################################################
 
         # Formulario 2
@@ -182,6 +265,10 @@ def NewPantalla():
         subformulario_frame2.config(width= 750, height=450)
         canvas.create_window((0,0), window=subformulario_frame2, anchor='nw')
         subformulario_frame2.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+
+        global lista2
+        lista2 = []
 
         label_1 = tkinter.Label(canvas, text='¿Has tenido alguna lesión cutánea en el pasado que haya sido removida \nquirúrgicamente?', background="#2E3BAC", fg="white", font= ("Helvetica", 13), width=70) 
         canvas.create_window((40, 30), window=label_1, anchor='w')
@@ -266,6 +353,46 @@ def NewPantalla():
 
         scroll_area_4 = scrolledtext.ScrolledText(canvas, wrap=tkinter.WORD)
         canvas.create_window((60, 1070), window=scroll_area_4, anchor='w', width=620, height=60)
+
+        def Datos_recabados_2():
+            
+            respuesta_1 = select_option_1.get()
+            lista2.append(respuesta_1)
+
+            respuesta_2 = scroll_area_1.get("1.0", "end-1c")
+            lista2.append(respuesta_2)
+
+            respuesta_3 = scroll_area_2.get("1.0", "end-1c")
+            lista2.append(respuesta_3)
+
+            respuesta_4 = select_option_2.get()
+            lista2.append(respuesta_4)
+
+            respuesta_5 = scroll_area_3.get("1.0", "end-1c")
+            lista2.append(respuesta_5)
+
+            respuesta_6 = select_option_3.get()
+            lista2.append(respuesta_6)
+
+            respuesta_7 = select_option_4.get()
+            lista2.append(respuesta_7)
+
+            respuesta_8 = select_option_5.get()
+            lista2.append(respuesta_8)
+
+            respuesta_9 = scroll_area_4.get("1.0", "end-1c")
+            lista2.append(respuesta_9)
+
+            # Cambiar a la siguiente pestaña
+            notebook.select(2)  # Cambiar el índice según sea necesario
+            if not all([respuesta_1, respuesta_2, respuesta_3, respuesta_4, respuesta_5, respuesta_6, respuesta_7, respuesta_8, respuesta_9  ]):
+                messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
+                return
+        # Asegúrate de asociar esta función al botón correspondiente
+        
+
+        boton_formulario_2 = Button(canvas, image=n_img, border=0, command=lambda: Datos_recabados_2(), cursor="hand2", activebackground="#4d7091", bg="#4d7091")
+        canvas.create_window((700, 1140), window=boton_formulario_2)
         #############################################################################################################################
 
         # Formulario 3
@@ -284,6 +411,9 @@ def NewPantalla():
         subformulario_frame3.config(width= 750, height=450)
         canvas.create_window((0,0), window=subformulario_frame3, anchor='nw')
         subformulario_frame3.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        global lista3
+        lista3 = []
 
         lbl_1 = tkinter.Label(canvas, text='¿Has utilizado camas de bronceado con regularidad en el pasado?', background="#73B62D", fg="white", font= ("Helvetica", 13), width=70) 
         canvas.create_window((40, 30), window=lbl_1, anchor='w')
@@ -308,7 +438,7 @@ def NewPantalla():
         
         #Radiobuttons
         opt_2 = ["Si", "No"]
-        selectoption_1 = tkinter.StringVar(value=opt_1[0])
+        selectoption_02 = tkinter.StringVar(value=opt_1[0])
         style.configure('TRadiobutton', background="#73B62D", foreground="black")
 
         for i, option in enumerate(opt_2):
@@ -332,13 +462,36 @@ def NewPantalla():
         for i, option in enumerate(opt_3):
             rad_3 = tkinter.Radiobutton(canvas, text=option, variable=selectoption_3, value=option, background="#73B62D", font= ("Helvetica", 13))
             canvas.create_window((240+(i*130), 300+i), window=rad_3, anchor='w')
+
+        def Datos_recabados_3(screen):
+            
+            respuesta1 = selectoption_1.get()
+            lista3.append(respuesta1)
+            
+            respuesta2 = etr1.get()
+            lista3.append(respuesta2)
+
+            respuesta3 = selectoption_02.get()
+            lista3.append(respuesta3)
+
+            respuesta4 = etr2.get()
+            lista3.append(respuesta4)
+
+            respuesta5 = selectoption_3.get()
+            lista3.append(respuesta5)
+
+            # Cambiar a la siguiente pestaña
+            if not all([respuesta1, respuesta2, respuesta3, respuesta4, respuesta5  ]):
+                messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
+                return
+            else :
+                screen.destroy()
+                datos = CapturarImagen.capturar(lista, lista2, lista3)
+        # Asegúrate de asociar esta función al botón correspondiente
         
-    def Siguiente(screen):
-        screen.destroy()
-        capturar_img = CapturarImagen.capturar()
-       
-    button_siguiente = CTkButton(master=app2, text="Siguiente", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:Siguiente(app2))
-    button_siguiente.place(relx=0.78, rely=0.936, anchor= tkinter.CENTER)    
+        button_siguiente = CTkButton(master=app2, text="Siguiente", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda: Datos_recabados_3(app2))
+        button_siguiente.place(relx=0.78, rely=0.936, anchor= tkinter.CENTER)
+        
 
     def menu():
         f1 = Frame(app2, width=150, height=900, bg=color)

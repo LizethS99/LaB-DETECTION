@@ -13,7 +13,7 @@ import CamaraImagen
 from claseCentrar import centerScreen
 #from keras.models import load_model
 
-def capturar():
+def capturar(lista, lista2, lista3):
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
 
@@ -111,7 +111,7 @@ def capturar():
         file = file_path
         print(file_path)
         app3.destroy()
-        confir_img = confirmar.confirmar_imagen(file)
+        confir_img = confirmar.confirmar_imagen(file, lista, lista2, lista3)
 
 
     imagen_camara = Image.open('Images\camara-2.png')
