@@ -1,4 +1,3 @@
-from threading import Thread
 from tkinter import *
 import tkinter
 from PIL import Image, ImageTk
@@ -10,13 +9,7 @@ import confirmar
 import os 
 import customtkinter 
 from claseCentrar import centerScreen
-from procesoLoad import PantallaCarga
-import tqdm
-import time
-model = YOLO('./runsSegmentation/train8/weights/best.pt')
-cierre_animacion = False
-    # Inicializar la cámara
-video = cv2.VideoCapture(0)
+
 def Camara_Imagen():
     color = '#003F79' # color menú lateral
     color2 = '#001E6F' #Azul muy oscuro
@@ -25,8 +18,11 @@ def Camara_Imagen():
     color5 = '#0D2764'
     centro = centerScreen()
     # Inicializar el modelo YOLO
-    global model, video, app_camera, img, fondo,captura, capturaR, contCap, capturaCamera, tomarVideo, cierre_animacion
-    
+    global model, video, app_camera, img, fondo,captura, capturaR, contCap, capturaCamera, tomarVideo, label_inst
+    model = YOLO('./runsSegmentation/train8/weights/best.pt')
+
+    # Inicializar la cámara
+    video = cv2.VideoCapture(0)
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
     # Crear una ventana de Tkinter
@@ -47,16 +43,19 @@ def Camara_Imagen():
     # Crear un lienzo para mostrar la imagen
     canvas = Canvas(app_camera, width=640, height=480)
     canvas.place(x=30, y=70)
-    Label(app_camera, text="Tome 4 imágenes",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=270, y=555)
+    instructions = f"Tome {4-contCap} imágenes"
+    label_inst=Label(app_camera, text=instructions,bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=270, y=555)
     # Capturar un solo fotograma
     def capturar_fotograma():
-        global captura, contCap, capturaR
+        global captura, contCap, capturaR, label_inst
         ret, frame = video.read()
-
+        
         img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        #img2 = Image.fromarray(cv2.cvtColor(boxes, cv2.COLOR_BGR2RGB))
         img2 = img.resize((200,154))
         img_tk = ImageTk.PhotoImage(image=img)
         img_tk2 = ImageTk.PhotoImage(image=img2)
+        
         # Mostrar la foto en una nueva ventana de Tkinter
         # Guardar el fotograma capturado en la variable
         captura.append(img_tk)
@@ -93,7 +92,8 @@ def Camara_Imagen():
         Gfile = os.path.dirname(__file__)+file
         nextStep = confirmar.confirmar_imagen(Gfile)
     def ventana_seleccion():
-        global captura, img, capturaR, tomarVideo
+        global captura, img, capturaR, tomarVideo, detection
+        detection = []
         tomarVideo=False
         video.release()
         ventana_foto = Toplevel(app_camera)
@@ -101,17 +101,21 @@ def Camara_Imagen():
         ventana_foto.iconbitmap("Images\logo.ico")
         fondo2 = Label(ventana_foto, image=img)
         fondo2.place(x=0, y=0)
-        Label(ventana_foto, image=capturaR[0]).place(x=150, y=40)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 1", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[0],ventana_foto)).place(relx=0.36, rely=0.375, anchor= tkinter.CENTER)
-        Label(ventana_foto, image=capturaR[1]).place(x=400, y=40)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 2", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[1],ventana_foto)).place(relx=0.7, rely=0.375, anchor= tkinter.CENTER)
-        Label(ventana_foto, image=capturaR[2]).place(x=150, y=280)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 3", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[2],ventana_foto)).place(relx=0.36, rely=0.77, anchor= tkinter.CENTER)
-        Label(ventana_foto, image=capturaR[3]).place(x=400, y=280)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 4", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[3],ventana_foto)).place(relx=0.7, rely=0.77, anchor= tkinter.CENTER)
-        customtkinter.CTkButton(master=ventana_foto, text="Nuevas Capturas", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:cancelarCaptura(ventana_foto)).place(relx=0.55, rely=0.93, anchor= tkinter.CENTER)
+        for i in capturaR:
+            resultado = model.predict(i,imgsz=640,conf=0.5)
+            boxes = resultado[0].plot()
+            detection.append(boxes)
+        Label(ventana_foto, image=detection[0]).place(x=150, y=70)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 1", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[0],ventana_foto)).place(relx=0.36, rely=0.41, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[1]).place(x=400, y=70)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 2", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[1],ventana_foto)).place(relx=0.7, rely=0.41, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[2]).place(x=150, y=310)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 3", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[2],ventana_foto)).place(relx=0.36, rely=0.81, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[3]).place(x=400, y=310)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 4", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[3],ventana_foto)).place(relx=0.7, rely=0.81, anchor= tkinter.CENTER)
+        customtkinter.CTkButton(master=ventana_foto, text="Nuevas Capturas", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:cancelarCaptura(ventana_foto)).place(relx=0.55, rely=0.95, anchor= tkinter.CENTER)
         strLabel = str(type(captura[0]))
-        Label(app_camera, text="Seleccione la mejor captura",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=210, y=30)
+        Label(ventana_foto, text="Seleccione la mejor captura",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=240, y=30)
     
 
     # Enlazar la función capturar_fotograma a la tecla "Espacio"
@@ -123,11 +127,11 @@ def Camara_Imagen():
             ret, frame = video.read()
 
             # Realizar predicción con YOLO
-            resultado = model.predict(frame, imgsz=640, conf=0.3)
-            boxes = resultado[0].plot()
+            """resultado = model.predict(frame, imgsz=640, conf=0.3)
+            boxes = resultado[0].plot()"""
 
             # Convertir la imagen de OpenCV a formato compatible con Tkinter
-            img = Image.fromarray(cv2.cvtColor(boxes, cv2.COLOR_BGR2RGB))
+            img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             img_tk = ImageTk.PhotoImage(image=img)
 
             # Mostrar la imagen en el lienzo
@@ -145,29 +149,9 @@ def Camara_Imagen():
 
     # Liberar la cámara
     video.release()
-    
-    cierre_animacion = True
 
     #return app_camera
-def mostrar_animacion_carga():
-    global cierre_animacion
-
-    pantalla_carga = PantallaCarga("Cargando...")
-    hilo_carga = Thread(target=pantalla_carga.simular_carga)
-    hilo_camara = Thread(target=Camara_Imagen)
-
-    # Iniciar el hilo de la animación primero
-    hilo_carga.start()
-
-    # Esperar a que el hilo de la animación termine antes de iniciar el hilo de la cámara
-    hilo_carga.join()
-
-    # Iniciar el hilo de la cámara después de que la animación haya terminado
-    hilo_camara.start()
-
-    # Esperar a que ambos hilos terminen
-    hilo_carga.join()
-    hilo_camara.join()
 
 if __name__ == "__main__":
-    mostrar_animacion_carga()
+    # Llama a la función principal si se ejecuta este script directamente
+    Camara_Imagen()

@@ -8,16 +8,20 @@ import os
 
 # Ajustar el contraste (cambiar el factor según sea necesario)
 factor_contraste = 1.5
-
+def contrasteImg(img):
+    print(factor_contraste)
+    ajustador_contraste = ImageEnhance.Contrast(imagen)
+    imagen_contrastada = ajustador_contraste.enhance(factor_contraste)
+    imagen_contrastada.show()
+    return imagen_contrastada
 imagen = Image.open("IMD004.bmp")
-imagen.show()
+imagen2 = contrasteImg(imagen)
 
-ajustador_contraste = ImageEnhance.Contrast(imagen)
-imagen_contrastada = ajustador_contraste.enhance(factor_contraste)
 
+ 
 # Mostrar la imagen original y la imagen con contraste
 
-imagen_contrastada.show()
+
 
 
 

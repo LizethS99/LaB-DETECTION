@@ -89,6 +89,6 @@ class PantallaCarga:
 # Crear la aplicación
 
 for i in range(2):
-    screen = PantallaCarga("Hola")
+    screen = PantallaCarga("Iniciando Cámara...")
 # Aquí puedes continuar con el código principal de tu aplicación después de que la carga ha terminado
 print("Proceso de carga completado. Continuar con el resto del código.")

@@ -18,7 +18,7 @@ def Camara_Imagen():
     color5 = '#0D2764'
     centro = centerScreen()
     # Inicializar el modelo YOLO
-    global model, video, app_camera, img, fondo,captura, capturaR, contCap, capturaCamera, tomarVideo 
+    global model, video, app_camera, img, fondo,captura, capturaR, contCap, capturaCamera, tomarVideo, label_inst
     model = YOLO('./runsSegmentation/train8/weights/best.pt')
 
     # Inicializar la cámara
@@ -43,16 +43,20 @@ def Camara_Imagen():
     # Crear un lienzo para mostrar la imagen
     canvas = Canvas(app_camera, width=640, height=480)
     canvas.place(x=30, y=70)
-    Label(app_camera, text="Tome 4 imágenes",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=270, y=555)
+    instructions = f"Tome {4-contCap} imágenes"
+    label_inst=Label(app_camera, text=instructions,bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=270, y=555)
     # Capturar un solo fotograma
     def capturar_fotograma():
-        global captura, contCap, capturaR
+        global captura, contCap, capturaR, label_inst
         ret, frame = video.read()
-
+        resultado = model.predict(frame,imgsz=640,conf=0.5)
+        boxes = resultado[0].plot()
         img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-        img2 = img.resize((200,154))
+        img2 = Image.fromarray(cv2.cvtColor(boxes, cv2.COLOR_BGR2RGB))
+        img2 = img2.resize((200,154))
         img_tk = ImageTk.PhotoImage(image=img)
         img_tk2 = ImageTk.PhotoImage(image=img2)
+        
         # Mostrar la foto en una nueva ventana de Tkinter
         # Guardar el fotograma capturado en la variable
         captura.append(img_tk)
@@ -89,29 +93,25 @@ def Camara_Imagen():
         Gfile = os.path.dirname(__file__)+file
         nextStep = confirmar.confirmar_imagen(Gfile)
     def ventana_seleccion():
-        global captura, img, capturaR, tomarVideo, deteccion
-        deteccion = []
+        global captura, img, capturaR, tomarVideo
         tomarVideo=False
         video.release()
         ventana_foto = Toplevel(app_camera)
         ventana_foto.geometry(centro.situarLaB(700,600))
         ventana_foto.iconbitmap("Images\logo.ico")
         fondo2 = Label(ventana_foto, image=img)
-        for i in capturaR:
-            deteccion.append(model.predict(i,imgs=640)[0])
-        print(deteccion)
         fondo2.place(x=0, y=0)
-        Label(ventana_foto, image=capturaR[0]).place(x=150, y=40)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 1", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[0],ventana_foto)).place(relx=0.36, rely=0.375, anchor= tkinter.CENTER)
-        Label(ventana_foto, image=capturaR[1]).place(x=400, y=40)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 2", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[1],ventana_foto)).place(relx=0.7, rely=0.375, anchor= tkinter.CENTER)
-        Label(ventana_foto, image=capturaR[2]).place(x=150, y=280)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 3", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[2],ventana_foto)).place(relx=0.36, rely=0.77, anchor= tkinter.CENTER)
-        Label(ventana_foto, image=capturaR[3]).place(x=400, y=280)
-        customtkinter.CTkButton(master=ventana_foto, text="Imagen 4", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[3],ventana_foto)).place(relx=0.7, rely=0.77, anchor= tkinter.CENTER)
-        customtkinter.CTkButton(master=ventana_foto, text="Nuevas Capturas", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:cancelarCaptura(ventana_foto)).place(relx=0.55, rely=0.93, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[0]).place(x=150, y=70)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 1", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[0],ventana_foto)).place(relx=0.36, rely=0.41, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[1]).place(x=400, y=70)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 2", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[1],ventana_foto)).place(relx=0.7, rely=0.41, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[2]).place(x=150, y=310)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 3", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[2],ventana_foto)).place(relx=0.36, rely=0.81, anchor= tkinter.CENTER)
+        Label(ventana_foto, image=capturaR[3]).place(x=400, y=310)
+        customtkinter.CTkButton(master=ventana_foto, text="Imagen 4", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:bestPhoto(captura[3],ventana_foto)).place(relx=0.7, rely=0.81, anchor= tkinter.CENTER)
+        customtkinter.CTkButton(master=ventana_foto, text="Nuevas Capturas", border_width=1.5 ,border_color=color3, font=('Arial', 20), height=5, command=lambda:cancelarCaptura(ventana_foto)).place(relx=0.55, rely=0.95, anchor= tkinter.CENTER)
         strLabel = str(type(captura[0]))
-        Label(ventana_foto, text="Lesiones detectadas",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=210, y=30)
+        Label(ventana_foto, text="Seleccione la mejor captura",bg="#050c2d", fg="white", font=("DaunPenh",15)).place(x=240, y=30)
     
 
     # Enlazar la función capturar_fotograma a la tecla "Espacio"
@@ -122,6 +122,10 @@ def Camara_Imagen():
         if tomarVideo == True:
             ret, frame = video.read()
 
+            # Realizar predicción con YOLO
+            """resultado = model.predict(frame, imgsz=640, conf=0.3)
+            boxes = resultado[0].plot()"""
+
             # Convertir la imagen de OpenCV a formato compatible con Tkinter
             img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             img_tk = ImageTk.PhotoImage(image=img)
@@ -131,7 +135,7 @@ def Camara_Imagen():
             canvas.img_tk = img_tk
 
             # Llamar a esta función cada 10 milisegundos para actualizar la imagen
-            canvas.after(10, update_frame)
+            canvas.after(1, update_frame)
 
         # Llamar a la función para actualizar la imagen
     update_frame()
