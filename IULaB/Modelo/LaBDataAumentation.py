@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 factor_contraste = 1.5
 #Contraste con PILL
 def contrasteImg(img, contrasteFact):
-    ajustador_contraste = ImageEnhance.Contrast(imagen)
+    ajustador_contraste = ImageEnhance.Contrast(img)
     imagen_contrastada = ajustador_contraste.enhance(contrasteFact)
     return imagen_contrastada
 
@@ -52,36 +52,46 @@ def ruido(imagenMain, porcentaje):
         img_res.putpixel((coordenada_x+1, coordenada_y+1), dato_minimo)
     return img_res
     
-def dataAumentation(imagen,path,file,aux):
-    global contImag
+def dataAumentation(imagen,path,file):
+    global contImag, carpeta
+    
+    aux = imagen.copy()
     plusAumentation = 1.0
     for i in range(4):
         contImag+=1
         plusAumentation+=0.5
         img2 = contrasteImg(imagen,plusAumentation)
-        img2.save(path+"NewAumentation/"+file[:len(file)-4]+"_"+str(contImag)+file[6:])
+        img2.save(path+carpeta+file[:len(file)-4]+"_"+str(contImag)+file[6:])
     for i in range(4):
         contImag+=1
         img2=ruido(imagen,i+1)
-        img2.save(path+"NewAumentation/"+file[:len(file)-4]+"_"+str(contImag)+file[6:])
+        img2.save(path+carpeta+file[:len(file)-4]+"_"+str(contImag)+file[6:])
     
     cv_image = np.array(aux)
     cv_image = cv_image[:,:,::-1].copy()
-    cv2.imshow("Blur",cv_image)
+    #cv2.imshow("Blur",cv_image)
     for i in range(8):
         cv_image=cv2.blur(cv_image,(3,3))
         if i%2==1:
             contImag+=1
             #cv2.imshow(f"Iteracion: {i+1}",cv_image)
-            cv2.imwrite(path+"NewAumentation/"+file[:len(file)-4]+"_"+str(contImag)+file[6:],cv_image)
+            cv2.imwrite(path+carpeta+file[:len(file)-4]+"_"+str(contImag)+file[6:],cv_image)
 
 images=[]
-for img in os.listdir('C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop/ESCOM/PruebasAu'): #Ruta del proyecto: ./Images/Dataset/train/Melanoma/
+pathIn = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/YoloClass/DataV2/Classify/val/Melanoma/"
+pathOut = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/DataAumentation/val/Melanoma/"
+pathAux = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/DataAumentation/val/"
+carpeta="Melanoma/"
+tam=len(os.listdir(pathIn))
+contImage = 0
+for img in os.listdir(pathIn): #Ruta del proyecto: ./Images/Dataset/train/Melanoma/
+    contImage+=1
+    print(str(int(contImage*(100/tam)))+"%")
     if img.endswith('.bmp'):
         
         contImag=0
-        imagen = Image.open('C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop/ESCOM/PruebasAu/'+img)
-        cv_file = cv2.imread('C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop/ESCOM/PruebasAu/'+img)
+        imagen = Image.open(pathIn+img)
+        cv_file = cv2.imread(pathIn+img)
         inv1 = cv2.flip(cv_file,0)
         inv1 = cv2.cvtColor(inv1,cv2.COLOR_BGR2RGB)
         inv2 = cv2.flip(cv_file,1)        
@@ -100,10 +110,8 @@ for img in os.listdir('C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop
         #imagen.save("C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop/ESCOM/NewAumentation/"+img) #Ruta de guardado en el proyecto: ./Images/Dataset/train/MelanomaAumentation/
         
         for i in images:
-            i.save("C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop/ESCOM/NewAumentation/"+img[:len(img)-4]+"_"+str(contImag)+img[6:])
-            dataAumentation(i,'C:/Users/brandon.bravo-ext/OneDrive - Eutelsat SA/Desktop/ESCOM/',img, i)
+            i.save(pathOut+img[:len(img)-4]+"_"+str(contImag)+img[6:])
+            dataAumentation(i,pathAux,img)
             contImag+=1
+        images = []
 
-cv2.waitKey()
-
-        
