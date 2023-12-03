@@ -36,15 +36,15 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
     histo = "Historial clínico:"
     elementos.append(Paragraph(histo, style=ParagraphStyle(name='Normal', fontSize=12)))
     elementos.append(Spacer(1, espacio))
-    explicacion = f"""Nombre del paciente:{lista[0]} <br /><br /> Edad: {lista[1]} <br /><br /> Sexo: {lista[2]} <br /><br /> Médico que atendió: {lista[3]} Fecha: {lista[4]}  <br /><br />
+    explicacion = f"""Nombre del paciente:{lista[0]} <br /><br /> Edad: {lista[1]} <br /><br /> Sexo: {lista[2]} <br /><br /> Médico que atendió: {lista[3]}  <br /><br /> Fecha: {lista[4]}  <br /><br />
     ¿El paciente mencionó si algún miembro de su familia ha sido diagnósticado previamente con melanoma? {lista[5]} <br /><br />
     Si la respuesta fue "Sí", ¿cuál es la relación familiar y cuándo fue el diagnóstico? {lista[6]} <br /><br /> 
     ¿El paciente refiere si existen antecendentes familiares o directo del paciente si lo a llevado a cambios en el comportamiento? {lista[7]} <br /><br />
     ¿Existen antecedentes familiares de cáncer que podrían estar relacionados con un mayor riesgo de melanoma?{lista[8]} ¿Cuál? {lista[9]} <br /><br />
     ¿El paciente se han realizado pruebas genéticas dentro de su familia para detectar mutaciones relacionadas con el melanoma u otros cánceres? {lista[10]} <br /><br />
     Si es así, ¿cuáles fueron los resultados? {lista[11]} <br /><br /> 
-    ¿Existen otros factores hereditarios que puedan aumentar el riesgo de melanona?{lista[12]} <br /><br />
-    El paciente refiere que {lista2[0]} ha tenido alguna lesión cutánea que se haya removido. En el caso de que la respuesta haya sido si, el motivo de la remociónn fue {lista2[1]} <br /><br />
+    ¿Existen otros factores hereditarios que puedan aumentar el riesgo de melanona? {lista[12]} <br /><br />
+    El paciente refiere que {lista2[0]} ha tenido alguna lesión cutánea que se haya removido. En el caso de que la respuesta haya sido si, el motivo de la remoción fue {lista2[1]} <br /><br />
     Refiere que su historial sobre la exposición solar es {lista2[2]}. El paciente menciona que {lista2[3]} ha notado cambios los cuales son: {lista2[4]}. Se menciona que {lista2[5]} ha tenido algún episodio previo de quemadura solar grave. <br /><br />
     {lista2[6]} se han presentado otros problemas de la piel. De igual forma se menciona que {lista2[7]} se ha tenido alguna biopsia de lesión cutánea que ha sido sospechosa de melanoma. <br /><br />
     En caso de haberse realizado la biopsia los resultados que se obtuvieron fueron: {lista2[8]} . <br /><br />

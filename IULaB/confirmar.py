@@ -50,7 +50,7 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     def NImage():
         print("Push Button")
         ventana_confirmar.destroy()
-        nuevo_analisis = CapturarImagen.capturar()
+        nuevo_analisis = CapturarImagen.capturar(lista, lista2, lista3)
 
     def Continuar():
         print("Push Button")
