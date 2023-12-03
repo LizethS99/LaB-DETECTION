@@ -47,6 +47,7 @@ def NewPantalla():
     n_img = ImageTk.PhotoImage(img_nueva2)
     
     def formularios():
+        
         #Pestañas para los formularios
         style = ttk.Style()
 
@@ -150,6 +151,7 @@ def NewPantalla():
         label5 = tkinter.Label(canvas, text='Si la respuesta es "Sí" en la pregunta anterior, ¿cuál es la relación familiar \ny cuándo fue el diagnóstico?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
         canvas.create_window((55, 530), window=label5, anchor='w')
         scroll_area = scrolledtext.ScrolledText(canvas, wrap=tkinter.WORD)
+        scroll_area.insert(tkinter.END, ' ')
         canvas.create_window((60, 580), window=scroll_area, anchor='w', width=620, height=100)
 
         label6 = tkinter.Label(canvas, text='¿Hay antecendentes en usted o en su familia que haya llevado a cambios en el \ncomportamiento, como una mayor conciencia de protección solar?', background="#4d7091", fg="white", font= ("Helvetica", 13), width=70) 
@@ -200,7 +202,7 @@ def NewPantalla():
         canvas.create_window((40, 1110), window=label10, anchor='w')
         scroll_area3 = scrolledtext.ScrolledText(canvas, wrap=tkinter.WORD)
         canvas.create_window((60, 1160), window=scroll_area3, anchor='w', width=620, height=60)
-
+        
         def Datos_recabados_1():
             
             nombre = entry1.get()
@@ -209,24 +211,24 @@ def NewPantalla():
             lista.append(edad)
             sexo = select_option.get()
             if sexo == "Otro":
-                sexo2 = sexo
-                lista.append(sexo2)
                 otro = entry3.get()
                 lista.append(otro)
-            else :
+            else:
                 lista.append(sexo)
+
+
             medico = entry0_1.get()
             lista.append(medico)
             fecha = entry_fecha.get()
             lista.append(fecha)
             pregunta_familia = select_option2.get()
             lista.append(pregunta_familia)
-            relacion_familiar = entry3.get()
-            lista.append(relacion_familiar)
             diagnostico_familiar = scroll_area.get("1.0", "end-1c")
             lista.append(diagnostico_familiar)
             cambios_comportamiento = select_option3.get()
             lista.append(cambios_comportamiento)
+            res = select_option4.get()
+            lista.append(res)
             tipos_cancer = entry8.get()
             lista.append(tipos_cancer)
             pruebas_geneticas = select_option5.get()
@@ -236,9 +238,10 @@ def NewPantalla():
             factores_hereditarios = scroll_area3.get("1.0", "end-1c")
             lista.append(factores_hereditarios)
 
-            if not all([nombre, edad, sexo, pregunta_familia, relacion_familiar, diagnostico_familiar, cambios_comportamiento, tipos_cancer, pruebas_geneticas, resultados_pruebas, factores_hereditarios  ]):
+            if not all([nombre, edad, sexo, pregunta_familia, diagnostico_familiar, cambios_comportamiento, res, tipos_cancer, pruebas_geneticas, resultados_pruebas, factores_hereditarios  ]):
                 messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
                 return
+            print(len(lista))
 
             # Cambiar a la siguiente pestaña
             notebook.select(1)  # Cambiar el índice según sea necesario
@@ -383,6 +386,8 @@ def NewPantalla():
             respuesta_9 = scroll_area_4.get("1.0", "end-1c")
             lista2.append(respuesta_9)
 
+            print(len(lista2))
+
             # Cambiar a la siguiente pestaña
             notebook.select(2)  # Cambiar el índice según sea necesario
             if not all([respuesta_1, respuesta_2, respuesta_3, respuesta_4, respuesta_5, respuesta_6, respuesta_7, respuesta_8, respuesta_9  ]):
@@ -480,13 +485,16 @@ def NewPantalla():
             respuesta5 = selectoption_3.get()
             lista3.append(respuesta5)
 
+            print(len(lista3))
+
             # Cambiar a la siguiente pestaña
             if not all([respuesta1, respuesta2, respuesta3, respuesta4, respuesta5  ]):
                 messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
                 return
             else :
                 screen.destroy()
-                datos = CapturarImagen.capturar(lista, lista2, lista3)
+                datos = CapturarImagen.capturar(lista, lista2, lista3) 
+                
         # Asegúrate de asociar esta función al botón correspondiente
         
         button_siguiente = CTkButton(master=app2, text="Siguiente", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda: Datos_recabados_3(app2))
@@ -546,6 +554,7 @@ def NewPantalla():
         label = CTkLabel(app2, image=imagen_logo, fg_color="#00042A", text='')
         label.pack()
         label.place(relx=0.067, rely=0)
+        
 
     default_home()
     formularios()

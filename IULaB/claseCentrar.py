@@ -8,6 +8,7 @@ class centerScreen:
         Ly = AltoLaB
 
         x = halfSx/2 - AnchoLaB/2
-        y = halfSy/2 - AltoLaB/2
+        #y = halfSy/2 - AltoLaB/2
+        y = 0
 
         return f"{AnchoLaB}x{AltoLaB}+{int(x)}+{int(y)}"

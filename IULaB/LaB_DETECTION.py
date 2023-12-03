@@ -8,7 +8,6 @@ import os
 import sys
 import Forms 
 import Acercade
-#from win32api import GetSystemMetrics
 from claseCentrar import centerScreen
 
 def funcion_principal():
