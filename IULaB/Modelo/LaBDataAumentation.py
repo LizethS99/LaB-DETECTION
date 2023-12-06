@@ -70,7 +70,7 @@ def dataAumentation(imagen,path,file):
     cv_image = np.array(aux)
     cv_image = cv_image[:,:,::-1].copy()
     #cv2.imshow("Blur",cv_image)
-    for i in range(8):
+    for i in range(9):
         cv_image=cv2.blur(cv_image,(3,3))
         if i%2==1:
             contImag+=1
@@ -78,9 +78,9 @@ def dataAumentation(imagen,path,file):
             cv2.imwrite(path+carpeta+file[:len(file)-4]+"_"+str(contImag)+file[6:],cv_image)
 
 images=[]
-pathIn = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/YoloClass/DataV2/Classify/val/Melanoma/"
-pathOut = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/DataAumentation/val/Melanoma/"
-pathAux = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/DataAumentation/val/"
+pathIn = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/YoloClass/DataV2/Classify/train/Melanoma/"
+pathOut = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/Autoencoders/PH2CNN/Melanoma/"
+pathAux = "C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/Autoencoders/PH2CNN/"
 carpeta="Melanoma/"
 tam=len(os.listdir(pathIn))
 contImage = 0

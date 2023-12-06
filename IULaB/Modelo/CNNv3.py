@@ -12,25 +12,10 @@ image_generator = ImageDataGenerator(rescale=1./255, validation_split=0.2)
 
 pathTrain="./MelanomaTrain"
 pathEvaluate ="./MelanomaEvaluate"
-dataTrain_generator = image_generator.flow_from_dataframe(
-    dataframe = labelsTrain_df,
-    directory = pathTrain,
-    x_col = "Image",
-    y_col = "Class",
-    target_size=(128,128),
-    class_mode = "categorical",
-    subset='training'
+dataTrain_generator = image_generator.flow_from_directory(
+    directory="C:/Users/Brandon Bravo/Desktop/RedNeuronalMelanoma/DataAumentation/Dataset",
+    
 )
-dataEvaluate_generator = image_generator.flow_from_dataframe(
-    dataframe = labelsEvaluate_df,
-    directory = pathEvaluate,
-    x_col = "Image",
-    y_col = "Class",
-    target_size=(128,128),
-    class_mode = "categorical",
-    subset='validation'
-)
-
 
 
 """LOOK!

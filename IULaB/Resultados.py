@@ -25,6 +25,7 @@ def Res(file, pdf):
     color4 = '#E8FBFC' #Letras en los botones
     color5 = '#0D2764'
     color6 = '#2E6FAC'
+    clases = ["Atípica", "Común", "Melanoma"]
 
     app5 = customtkinter.CTk()
     centro = centerScreen()
@@ -41,6 +42,25 @@ def Res(file, pdf):
     fondo = PhotoImage(file='Images\\fondo.png')
     lbl_fondo = CTkLabel(app5, image=fondo, text='').place(x=0, y=0)
 
+    
+#PRUEBAS con imagenes
+    def extractClass(verbose):
+        result = ""
+        finalClass = ""
+        for i in verbose:
+            if i == ",":
+                break
+            result+=i
+        for i in result:
+            if i ==" ":
+                break
+            finalClass+=i
+        if finalClass=="Common":
+            return clases[1]
+        elif finalClass=="Atypical":
+            return clases[0]
+        else:
+            return clases[2]
 
     def menu():
         f1 = Frame(app5, width=150, height=900, bg=color)
@@ -130,12 +150,15 @@ def Res(file, pdf):
                 canvas_imagen.image = imagen_tk
         cargar_imagen()
 
-        model = YOLO('./runs/runs/classify/train6/weights/best.pt')
+        model = YOLO('./runs/runs/classify/train9/weights/last.pt')
         result = model.predict(file, imgsz = 640)
         boxes = result[0].plot()
+        classify = "Imagen clasificada como: "+extractClass(result[0].verbose())
         texto = "Los detalles del resultado puede encontrarlos en el PDF que se muestra a su derecha"
         Res = CTkLabel(app5,text=texto, bg_color='white', fg_color="#050c2d") 
         Res.place(relx=0.55, rely=0.07)
+        ResClass = CTkLabel(app5,text=classify,bg_color='white', fg_color="#050c2d")
+        ResClass.place(relx=0.2, rely=0.77)
 
         def cargar_pdf():
             pdf_path = pdf
