@@ -128,7 +128,7 @@ def NewPantalla():
         def actualizar_fecha():
             fecha_seleccionada_str = cal.get_date()
             fecha_seleccionada = datetime.strptime(fecha_seleccionada_str, "%Y-%m-%d")
-            fecha_formateada = "{:02d}/{:02d}/{}".format(fecha_seleccionada.month, fecha_seleccionada.day, fecha_seleccionada.year)
+            fecha_formateada = "{:02d}/{:02d}/{}".format(fecha_seleccionada.day,fecha_seleccionada.month, fecha_seleccionada.year)
             entry_fecha.delete(0, "end")  # Limpiar el contenido actual
             entry_fecha.insert(0, fecha_formateada)  # Insertar la nueva fecha formateada
         
