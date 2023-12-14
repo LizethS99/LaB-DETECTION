@@ -44,7 +44,7 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
     ¿El paciente se han realizado pruebas genéticas dentro de su familia para detectar mutaciones relacionadas con el melanoma u otros cánceres? {lista[10]} <br /><br />
     Si es así, ¿cuáles fueron los resultados? {lista[11]} <br /><br /> 
     ¿Existen otros factores hereditarios que puedan aumentar el riesgo de melanona? {lista[12]} <br /><br />
-    El paciente refiere que {lista2[0]} ha teni<<<<<<<<<<<<do alguna lesión cutánea que se haya removido. En el caso de que la respuesta haya sido si, el motivo de la remoción fue {lista2[1]} <br /><br />
+    El paciente refiere que {lista2[0]} ha tenido alguna lesión cutánea que se haya removido. En el caso de que la respuesta haya sido si, el motivo de la remoción fue {lista2[1]} <br /><br />
     Refiere que su historial sobre la exposición solar es {lista2[2]}. El paciente menciona que {lista2[3]} ha notado cambios los cuales son: {lista2[4]}. Se menciona que {lista2[5]} ha tenido algún episodio previo de quemadura solar grave. <br /><br />
     {lista2[6]} se han presentado otros problemas de la piel. De igual forma se menciona que {lista2[7]} se ha tenido alguna biopsia de lesión cutánea que ha sido sospechosa de melanoma. <br /><br />
     En caso de haberse realizado la biopsia los resultados que se obtuvieron fueron: {lista2[8]} . <br /><br />
