@@ -1,6 +1,8 @@
 #Home
 import tkinter
 import customtkinter
+import tkinter as tk
+from ctypes import windll
 from PIL import ImageTk, Image
 from customtkinter import CTk, CTkFrame, CTkButton, CTkEntry, CTkLabel
 from tkinter import PhotoImage, Frame, Label, Button, messagebox, scrolledtext
@@ -8,13 +10,14 @@ import os
 import sys
 import Forms 
 import Acercade
+import cancer_piel
 from claseCentrar import centerScreen
 
 def funcion_principal():
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
 
-
+    
     color = '#003F79' # color menú lateral
     color2 = '#001E6F' #Azul muy oscuro
     color3 = '#48F0FA' #Azul muy claro
@@ -59,13 +62,16 @@ def funcion_principal():
             sys.exit(0)
 
         def Aboutus(screen, imagen1, imagen2):
-            for widget in screen.winfo_children():
-                widget.destroy()
+            screen.destroy()
 
-            pantallanueva3 = Acercade.Acerca_de(app, imagen1, imagen2)
+            pantallanueva3 = Acercade.Acerca_de(imagen1, imagen2)
+
+        def Cancer_d_piel(screen, imagen1, imagen2):
+            screen.destroy()
+            pantalla_cancer_piel = cancer_piel.Cancer_piel(imagen1, imagen2)
 
         Botones(0, 50, 'Acerca de', color4,color2, 1, lambda: Aboutus(app, ruta, ruta2))
-        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
+        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, lambda: Cancer_d_piel(app, ruta, ruta2))
         Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
         Botones(0, 170, 'Nuevo análisis', color4,color2, 0, None)
         Botones(0, 210, 'Salir', color4,color2, 1, salir)
