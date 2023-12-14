@@ -10,7 +10,7 @@ import os
 import customtkinter 
 from claseCentrar import centerScreen
 
-def Camara_Imagen():
+def Camara_Imagen(lista, lista2, lista3):
     color = '#003F79' # color menú lateral
     color2 = '#001E6F' #Azul muy oscuro
     color3 = '#48F0FA' #Azul muy claro
@@ -84,14 +84,14 @@ def Camara_Imagen():
         capturaCamera = img
         image_selec = ImageTk.getimage(img)
         #eliminar si ya existe
-        image_selec.save("./IULaB/image_select.bmp")
+        image_selec.save("./image_select.bmp")
         app.destroy()
         app_camera.destroy()
         
         global Gfile
-        file = "\image_select.bmp"
-        Gfile = os.path.dirname(__file__)+file
-        nextStep = confirmar.confirmar_imagen(Gfile)
+        gfile = "\image_select.bmp"
+        Gfile = os.path.dirname(__file__)+gfile
+        nextStep = confirmar.confirmar_imagen(Gfile, lista, lista2, lista3)
     def ventana_seleccion():
         global captura, img, capturaR, tomarVideo
         tomarVideo=False
@@ -146,8 +146,8 @@ def Camara_Imagen():
     # Liberar la cámara
     video.release()
 
-    #return app_camera
+    return app_camera
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     # Llama a la función principal si se ejecuta este script directamente
-    Camara_Imagen()
+    Camara_Imagen()"""
