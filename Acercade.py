@@ -7,6 +7,7 @@ from tkinter import PhotoImage, Frame, Label, Button, messagebox
 import sys
 from claseCentrar import centerScreen
 import LaB_DETECTION
+import cancer_piel
 
 def Acerca_de(imagen_logo2, img):
 
@@ -24,15 +25,14 @@ def Acerca_de(imagen_logo2, img):
     app4.config(bg=color5)
     app4.title('Acerca de')
     img_logo = imagen_logo2
-    img_logo2 = Image.open(img_logo)
-    ntam = (400, 180)
-    imagen_redim = img_logo2.resize(ntam)
+    img_logo3 = Image.open(img_logo)
+    ntam = (245, 145)
+    imagen_redim = img_logo3.resize(ntam)
     imagen_logo = ImageTk.PhotoImage(imagen_redim)
-    imagen_logo = PhotoImage(file='Images\Segundologo.png')
+    imagen_log = PhotoImage(file='Images\Segundologo.png')
     app4.iconbitmap("Images\logo.ico")
     fondo = PhotoImage(file=img)
     lbl_fondo = Label(image=fondo).place(x=0, y=0.05)
-    
 
     def menu():
         f1 = Frame(app4, width=150, height=900, bg=color)
@@ -61,12 +61,16 @@ def Acerca_de(imagen_logo2, img):
             screen.destroy()
             back_home = LaB_DETECTION.funcion_principal()
         
+        def Cancer_d_piel(screen, imagen1, imagen2):
+            screen.destroy()
+            pantalla_cancer_piel = cancer_piel.Cancer_piel(imagen1, imagen2)
+        
 
         Botones(0, 50, 'Acerca de', color4,color2, 0, None)
-        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
+        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, lambda: Cancer_d_piel(app4, imagen_logo2, img))
         Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
         Botones(0, 170, 'Nuevo análisis', color4,color2, 0, None)
-        Botones(0, 210, 'Salir', color4,color2, 1, salir)
+        Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())
         Botones(0, 250, 'Home', color4,color2, 1, lambda: Home(app4))
 
     
