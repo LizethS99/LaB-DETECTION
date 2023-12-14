@@ -7,8 +7,10 @@ from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, message
 from tkinter import filedialog  as fd #Ventanas de dialogo
 from tkinter import messagebox as mb
 import os
+import numpy as np
 import fitz  # PyMuPDF
-from ultralytics import YOLO
+from keras.models import load_model
+import tensorflow as tf
 from claseCentrar import centerScreen
 import Forms 
 import sys
@@ -149,17 +151,31 @@ def Res(file, pdf):
                 canvas_imagen.create_image(0, 0, anchor=tkinter.NW, image=imagen_tk)
                 canvas_imagen.image = imagen_tk
         cargar_imagen()
-
-        model = YOLO('./runs/runs/classify/train9/weights/last.pt')
-        result = model.predict(file, imgsz = 640)
-        boxes = result[0].plot()
-        classify = "Imagen clasificada como: "+extractClass(result[0].verbose())
+        classify=[]
+        autoencoder=tf.keras.models.load_model('./Modelo/autoencoder')
+        cnn=tf.keras.models.load_model('./Modelo/LaB-CNN')
+        classes = ["Atipica","Comun","Melanoma"]
+        image = Image.open("./image_select.bmp")
+        image = image.resize((128,128))
+        img_array = np.array(image)
+        img_array = img_array.astype('float32')/255.0
+        if img_array.ndim==2:
+            img_array=np.stack((img_array)*3,axis=-1)
+        elif img_array.shape[2]==1:
+            img_array = np.repeat(img_array,3,axis=-1)
+        img_array=np.expand_dims(img_array,axis=0)
+        code = autoencoder.predict(img_array)
+        result = cnn.predict(code)
+        for i, val in np.ndenumerate(result):
+            classify.append(val)
+        
+        classfy = "Imagen clasificada como: "+classes[classify.index(max(classify))]
         texto = "Los detalles del resultado puede encontrarlos en el PDF que se muestra a su derecha"
         Res = CTkLabel(app5,text=texto, bg_color='white', fg_color="#050c2d") 
         Res.place(relx=0.55, rely=0.07)
-        ResClass = CTkLabel(app5,text=classify,bg_color='white', fg_color="#050c2d")
+        ResClass = CTkLabel(app5,text=classfy,bg_color='white', fg_color="#050c2d")
         ResClass.place(relx=0.2, rely=0.77)
-
+        classify.clear()
         def cargar_pdf():
             pdf_path = pdf
             if pdf_path:

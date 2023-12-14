@@ -100,9 +100,10 @@ def capturar(lista, lista2, lista3):
     default_home()
 
     def Captura_Imagen():
+        global file
         print("Push Button")
         app3.destroy()
-        capturaImage = CamaraImagen.Camara_Imagen()
+        capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3)
 
     def Seleccionar_Imagen():
         print("Push Button")
