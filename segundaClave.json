@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "resultadospdflab",
+  "private_key_id": "0c12c9a69170c6597df1f98958245887b9f7ab44",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCkfJIsYO4b4tVe\nOAir0K0HW0ihlffVvRj77BjdGJPdlmJSsYiHoiPUHDXD1Qar6v+gwgVxrRKl95hA\nffJ0aPr3fex3a+SW0P5FWHhO2s6IiguDGLXEcRi5wAPwsuD+jcSxvORVm4X3WH5B\nJm/1c+b0vn/qAUBR0pm2cdbOYElhm8xKjzjQCRN6OV1UFMq0cqa42KrbNkU17c7t\n3DYeqt7kjMNKk9lfetdZsAwYVlFYpnYNEYxYD1/hTCPC3O2GIeUUAzOaaidKyKwj\nK17hlHOt/1x7BB+Jd16/ceBht4IgVoBvHNz5s52Iw9g5FoWuV1HcutsdF/eEgLV6\nEB1eQshDAgMBAAECggEABS+Ljjb0xXqhHnTRdSqW4etTVAt915u8F2kp9C0rsD88\nVKjAigInHgSmVJ5j359WNX5txy0yhXqpA/4p2tivx4YNTUs2AY6PjaZ3OIk2cgs5\ncgXL6T264/71QNfq4auc3rulTpD2KBupSKrfub3QiLkeyu+vfu+O+rexEtWUoAKe\nnmaDOx3SOGwtkwwVwzrNDGlDqh8NVF9nrXyBa1B9VgP2FBH0P4lqZkYGPUiJLBhD\nt2R53UgTxIzkBt/T+pAL4yyHLgtHYn4tUk4WlRcEaF0+cttG/SNSTQvgu8GEymsO\nFizHinwcIoL0oV3bEUsx98LuUo4bP6uMvALSGWCnAQKBgQDdtuj47EUkGZeoffTk\nTzUKaMhn5UT7Kty/oQNRmNHaBDKgGPxjG01Gf2g+QeiEmXtT25xAE+Cw5TRzsWjt\nS0SaZSiYr3P4vNUSanOCK+JTbgm9Fr0OMPXFaYCpRFJFw/Qwi0DJj/tIwzijyAnp\ndBtybzUMGXchS2DBm/4vxyltQwKBgQC97CkNUnbjjlfSDJR5GLQLzByPRveyZdYY\n6n0NbrXQAud/L7AULeBNA5xir+clR0gRMwZAN03MFe1IjrGTxKjokUXRd3MlECSl\nnkbLu+DmHRqWxKUA+wvmkCIEq6oZKQFBd+rQXtbg6MMBMHURIVFg45eZQ3d6a2mK\ne3AkH5YJAQKBgGPsyQlPa0X+5tRAmHvBmxUq7o+szC8rPTx8tAM1jfblh2+Sc0Wz\ni1tnlrLgf4wrpGLCCqTykIUJeF9gKPsxviSbzPUrtmf3q0xWf+K+Jo4VfPwk4GYh\n+NLVXvBq422gCFFMoZF2e/lqSv+964G1G52ys0TVwVRXJa98v84GxAwDAoGAUDTU\n3XBvDwjFI8r2RPHez4CiqwuAfdGuChW1PB/+HlurojXkeZEqQbv9plu9FSw2TjUr\nNaFldIPqEpNYgRwzbQw03RJCCWv43gyqv02X2/Z8jSF8wZ5D11oVU72fd0Ku6hQX\nkWoL+y2xdOYe+l4EvRNAqZQpeAS2rKoWoNrKBQECgYAeQbcNgQ/+qhUxuimc0fxr\nULWonMfuI+Vj5eOhlpQwfuADaBoy87UNFPxBo+NbhHt5/rtLODwntdDZurG5+Y92\nP6n7OEeL3AnldjY0v7KetFTeUdgDpt2+KESVaBrkJxwpG+LEL2aJoa2F/GnZrth3\nxVKlEnbZPTSXFImHfLSorA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "labrequests1@resultadospdflab.iam.gserviceaccount.com",
+  "client_id": "100787491833639654396",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/labrequests1%40resultadospdflab.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

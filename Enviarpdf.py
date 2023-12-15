@@ -7,7 +7,6 @@ from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, filedia
 import os
 import numpy as np
 import cv2
-import CapturarImagen
 import crearpdf
 import re
 from claseCentrar import centerScreen
@@ -88,17 +87,17 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     def validacion():
         nombre="Juan Pérez"
         correo=entry_correoDoc.get()
-        contra=entry_passDoc.get()
-        if validarCorreo(correo) and correo!="" and contra!="":
-            if enviarCorreo(correo, contra,correoSend, nombre) == 1:
+        
+        if validarCorreo(correo) and correo!="" and entry_passDoc.get()!="":
+            if enviarCorreo(correo, entry_passDoc.get(),correoSend, nombre) == 1:
                 labelfondo.configure(image=fondo3)
                 entry_correoDoc.place_forget()
                 entry_passDoc.place_forget()
                 lbl_advice.place_forget()
                 lbl_text.configure(text="¡Correo enviado exitosamente!")
-                ventana_confirmar.after(2000,exit)
+                ventana_confirmar.after(2000,ventana_confirmar.destroy)
 
-        elif correo=="" or contra=="":
+        elif correo=="" or entry_passDoc.get()=="":
             alertLabel.configure(text="*Llene correctamente los campos")
             alertLabel.place(relx=0.3,rely=0.75)
             
