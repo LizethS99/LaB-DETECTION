@@ -7,6 +7,7 @@ from tkinter import PhotoImage, Frame, Label, Button, messagebox
 import sys
 from claseCentrar import centerScreen
 import LaB_DETECTION
+import Acercade
 
 def Cancer_piel(imagen_logo2, img):
 
@@ -24,11 +25,12 @@ def Cancer_piel(imagen_logo2, img):
     app_cancer_piel.config(bg=color5)
     app_cancer_piel.title('Cáncer d piel')
     img_logo = imagen_logo2
-    img_logo2 = Image.open(img_logo)
-    ntam = (400, 180)
-    imagen_redim = img_logo2.resize(ntam)
+    img_logo3 = Image.open(img_logo)
+    ntam = (245, 145)
+    imagen_redim = img_logo3.resize(ntam)
     imagen_logo = ImageTk.PhotoImage(imagen_redim)
-
+    imagen_log = PhotoImage(file='Images\Segundologo.png')
+    app_cancer_piel.iconbitmap("Images\logo.ico")
     fondo = PhotoImage(file=img)
     lbl_fondo = Label(image=fondo).place(x=0, y=0.05)
     
@@ -59,13 +61,18 @@ def Cancer_piel(imagen_logo2, img):
         def Home(screen):
             screen.destroy()
             back_home = LaB_DETECTION.funcion_principal()
+
+        def Aboutus(screen, imagen1, imagen2):
+            screen.destroy()
+
+            pantallanueva3 = Acercade.Acerca_de(imagen1, imagen2)
         
 
-        Botones(0, 50, 'Acerca de', color4,color2, 0, None)
-        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
+        Botones(0, 50, 'Acerca de', color4,color2, 1, lambda: Aboutus(app_cancer_piel, imagen_logo2, img))
+        Botones(0, 90, 'Cáncer de piel', color4,color2, 0, None)
         Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
         Botones(0, 170, 'Nuevo análisis', color4,color2, 0, None)
-        Botones(0, 210, 'Salir', color4,color2, 1, salir)
+        Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())
         Botones(0, 250, 'Home', color4,color2, 1, lambda: Home(app_cancer_piel))
 
     
@@ -87,8 +94,6 @@ def Cancer_piel(imagen_logo2, img):
     Button(app_cancer_piel, image=img1, border=0, activebackground=color, bg=color, command=menu, cursor="hand2").place(x=15, y=15)
 
     def default_home():
-        #tam = (70,30)
-        #nimg = imagen_logo.resize(tam)
         label = CTkLabel(app_cancer_piel, image=imagen_logo, fg_color="#00042A", text='')
         label.pack()
         label.place(relx=0.067, rely=0)
@@ -115,9 +120,10 @@ def Cancer_piel(imagen_logo2, img):
         nosotros = """Puesto que el melanoma es uno de los canceres de piel que son más agresivos, puesto que si no es detectado a tiempo puede ser potencialmente mortal. 
         Por este motivo es que LaB-DETECTION fue creado con la finalidad de que a través de una imagen se haga un análisis por medio de redes neuronales convolucionales, en donde nos muestre un resultado donde la imagen quede clasificada como típica, común o melanoma.
         Además se hará uso del método ABCD en donde se tomará en cuenta la asímetria, el borde, el color y otras carcateristicas relevantes que proporcionen la información más amplia posible para el médico.
-        Para entender un poco más cómo funciona este software debemos indagar un poco más so"""
+        Para entender un poco más cómo funciona este software debemos indagar un poco más sobre redes neuronales, estas funcionan mediante aprendizaje, ya que tratan de emular la forma en la que aprendemos los humanos. 
+        En especifico la que usamos en LaB-DETECTION se entrenó, es decir, aprendió por medio de un DataSet proveniente de PH2 en el que que cada imagen es categorizada en 'común', 'típica' y 'melanoma', por lo que aprendió a diferenciar una imagen."""
         label1 = tkinter.Label(canvas, text=nosotros, justify=tkinter.LEFT, wraplength=500, background=color, fg="white", font= ("Helvetica", 13), width=70)
-        canvas.create_window((50, 180), window=label1, anchor='w')     
+        canvas.create_window((50, 230), window=label1, anchor='w')     
 
     AS()
 
@@ -127,6 +133,6 @@ def Cancer_piel(imagen_logo2, img):
     app_cancer_piel.mainloop()
     return app_cancer_piel
 
-#ruta = 'Images\Segundologo.png'
-#ruta2 = 'Images\\fondo.png'    
-#Cancer_piel(ruta, ruta2)
+"""ruta = 'Images\Segundologo.png'
+ruta2 = 'Images\\fondo.png'    
+Cancer_piel(ruta, ruta2)"""
