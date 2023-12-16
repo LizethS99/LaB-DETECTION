@@ -67,5 +67,5 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     
     ventana_confirmar.mainloop()
     return ventana_confirmar
-#nfile = 'E:/TT2/gato.jpeg'
+#nfile = 'IMD004.bmp'
 #confirmar_imagen(nfile)
