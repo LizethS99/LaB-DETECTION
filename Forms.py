@@ -64,10 +64,12 @@ def NewPantalla():
         tab1 = Frame(notebook, background=color6, border=10)
         tab2 = Frame(notebook, background="#7683F7", border=10)
         tab3 = Frame(notebook, background="#CDFA9F", border=10)
+        tab4 = Frame(notebook, background="#957CA9", border=10)
 
         notebook.add(tab1, text='       HEREDOFAMILIAR       ')
         notebook.add(tab2, text='       PATOLÓGICO       ')
         notebook.add(tab3, text='       NO PATOLÓGICO       ')
+        notebook.add(tab4, text='       DATOS ABCD      ')
 
         # Formulario 1
         formulario_frame = tkinter.Frame(tab1, background="#4d7091")
@@ -509,6 +511,27 @@ def NewPantalla():
         
         button_siguiente = CTkButton(master=app2, text="Siguiente", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda: Datos_recabados_3(app2))
         button_siguiente.place(relx=0.78, rely=0.936, anchor= tkinter.CENTER)
+        ##########################################################################################
+        # Formulario 4
+        formulario_frame4 = tkinter.Frame(tab4, background="#8D61B0")
+        formulario_frame4.pack(fill='both', expand=True)
+        formulario_frame4.place(relx=0, rely=0)
+
+        canvas = tkinter.Canvas(formulario_frame4, background="#8D61B0")
+        scrollbar = tkinter.Scrollbar(formulario_frame4, orient='vertical', command=canvas.yview)
+
+        canvas.config(yscrollcommand=scrollbar.set, width= 750, height=450, scrollregion=canvas.bbox("all"))
+        canvas.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
+
+        subformulario_frame4 = tkinter.Frame(canvas, background="#8D61B0")
+        subformulario_frame4.config(width= 750, height=450)
+        canvas.create_window((0,0), window=subformulario_frame4, anchor='nw')
+        subformulario_frame4.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+
+        global lista4
+        lista4 = []
         
 
     def menu():
