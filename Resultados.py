@@ -15,6 +15,8 @@ from claseCentrar import centerScreen
 import Forms 
 import sys
 import LaB_DETECTION
+import Acercade
+import cancer_piel
 #from keras.models import load_model
 
 def Res(file, pdf):
@@ -35,7 +37,9 @@ def Res(file, pdf):
     app5.minsize(1100,700)
     app5.maxsize(1400, 700)
     app5.config(bg=color5)
-    app5.title('LaB-DETECTION Historial')
+    app5.title('Resultados')
+    ruta = 'Images\Segundologo.png'
+    ruta2 = 'Images\\fondo.png'
     imagen_logo2 = Image.open('Images\Segundologo.png')
     ntam = (400, 180)
     imagen_redim = imagen_logo2.resize(ntam)
@@ -94,9 +98,18 @@ def Res(file, pdf):
         def Home(screen):
             screen.destroy()
             pantalla_main = LaB_DETECTION.funcion_principal()
+
+        def Aboutus(screen, imagen1, imagen2):
+            screen.destroy()
+
+            pantallanueva3 = Acercade.Acerca_de(imagen1, imagen2)
+
+        def Cancer_d_piel(screen, imagen1, imagen2):
+            screen.destroy()
+            pantalla_cancer_piel = cancer_piel.Cancer_piel(imagen1, imagen2)
         
-        Botones(0, 50, 'Acerca de', color4,color2, 1, None)
-        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
+        Botones(0, 50, 'Acerca de', color4,color2, 1, lambda: Aboutus(app5, ruta, ruta2))
+        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, lambda: Cancer_d_piel(app5, ruta, ruta2))
         Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
         Botones(0, 170, 'Nuevo análisis', color4,color2, 1, lambda: NPantalla(app5))
         Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())

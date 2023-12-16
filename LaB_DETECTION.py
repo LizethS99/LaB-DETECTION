@@ -74,7 +74,7 @@ def funcion_principal():
         Botones(0, 90, 'Cáncer de piel', color4,color2, 1, lambda: Cancer_d_piel(app, ruta, ruta2))
         Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
         Botones(0, 170, 'Nuevo análisis', color4,color2, 0, None)
-        Botones(0, 210, 'Salir', color4,color2, 1, salir)
+        Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())
 
         def dele():
             f1.destroy()
