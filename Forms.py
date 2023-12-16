@@ -529,7 +529,9 @@ def NewPantalla():
         canvas.create_window((0,0), window=subformulario_frame4, anchor='nw')
         subformulario_frame4.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
 
-
+        texto = "Hola, dentro de esta sección solo ingresa el tamaño que tiene la lesión, \nesto nos servirá para obtener los datos del ABCD, la asímetria, \nel borde y los colores los obtendremos nosotros"
+        nota = tkinter.Label(canvas, text=texto, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 50), window=nota, anchor='w')
         global lista4
         lista4 = []
         
