@@ -13,6 +13,8 @@ import CamaraImagen
 from claseCentrar import centerScreen
 #from keras.models import load_model
 
+
+
 def capturar(lista, lista2, lista3):
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
@@ -41,7 +43,7 @@ def capturar(lista, lista2, lista3):
     fondo = PhotoImage(file=ruta2)
     lbl_fondo = CTkLabel(app3, image=fondo, text='').place(x=0, y=0)
 
-
+    
 
     def menu():
         f1 = Frame(app3, width=150, height=900, bg=color)
@@ -101,9 +103,29 @@ def capturar(lista, lista2, lista3):
 
     def Captura_Imagen():
         global file
+        index = 0
+        cameras=[]
+        while True:
+            cap = cv2.VideoCapture(index)
+            if not cap.isOpened():
+                cap.release()
+                break
+            camera_name = f"Camara {index}"
+            cameras.append((index, camera_name))
+            cap.release()
+            index += 1
         print("Push Button")
-        app3.destroy()
-        capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3)
+        
+        if len(cameras)==1:
+            capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3)
+            app3.destroy() 
+        else: 
+            custom_listbox = tkinter.Listbox(app3,selectmode=tkinter.MULTIPLE)
+            custom_listbox.place(relx=0.38, rely=0.78)
+            for item in cameras:
+                custom_listbox.insert(tkinter.END,item)
+          
+
 
     def Seleccionar_Imagen():
         print("Push Button")
@@ -143,5 +165,6 @@ def capturar(lista, lista2, lista3):
 
     app3.mainloop()
 
-    return app3
-#capturar()
+    
+    #return app3
+capturar([],[],[])
