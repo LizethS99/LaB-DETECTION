@@ -406,7 +406,7 @@ def NewPantalla():
                 messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
                 return
         # Asegúrate de asociar esta función al botón correspondiente
-        boton_formulario_2 = Button(canvas, image=n_img, border=0, command=lambda: Datos_recabados_2(), cursor="hand2", activebackground="#4d7091", bg="#4B54A5")
+        boton_formulario_2 = Button(canvas, image=n_img, border=0, command=lambda: Datos_recabados_2(), cursor="hand2", activebackground="#4B54A5", bg="#4B54A5")
         canvas.create_window((700, 1140), window=boton_formulario_2)
         #############################################################################################################################
 
@@ -528,6 +528,11 @@ def NewPantalla():
         texto = "Hola, dentro de esta sección solo ingresa el tamaño que tiene la lesión, esto nos servirá para obtener los datos del ABCD, la asímetria, el borde y los colores los obtendremos nosotros"
         nota = tkinter.Label(canvas, text=texto, justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
         canvas.create_window((40, 50), window=nota, anchor='w')
+
+        nota = tkinter.Label(canvas, text="Tamaño ", justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 50), window=nota, anchor='w')
+
+
         global lista4
         lista4 = []
 
@@ -634,6 +639,6 @@ def NewPantalla():
     formularios()
     app2.mainloop()
 
-    #return app2
+    return app2
 
-NewPantalla()
+#NewPantalla()
