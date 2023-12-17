@@ -25,7 +25,8 @@ letras2 =["h","i","j","k","l","m","n","ñ"]
 numeros = [1,2,3,4,5,6,7,8,9,0]
 simbolos =["#",".","$","&","%"]
 
-def enviarCorreo(correo, contra, destinatario, name):
+def enviarCorreo(destinatario, name):
+    correo = "labdetection@gmail.com"
     email = MIMEMultipart()
     email["From"]=correo
     email["To"] = destinatario
@@ -33,20 +34,22 @@ def enviarCorreo(correo, contra, destinatario, name):
     generarContraPDF =random.choice(letras)+str(random.choice(numeros))+str(random.choice(numeros))+random.choice(letras2)+random.choice(letras2)+random.choice(simbolos)+str(random.choice(numeros))+random.choice(letras)+random.choice(letras2)+str(random.choice(numeros))+random.choice(letras2)
     mensaje = "Su contraseña del PDF es: "+generarContraPDF
     email.attach(MIMEText(mensaje,"plain"))
-    with open("./Resultados_LaB_DETECTION.pdf","rb") as archivos:
+    """with open("./Resultados_LaB_DETECTION.pdf","rb") as archivos:
         parte = MIMEBase("application","octet-stream")
         parte.set_payload(archivos.read())
     encoders.encode_base64(parte)
     parte.add_header("Content-Disposition",f"attachment; filename=Resultados_LaB-Detection.pdf")
-    email.attach(parte)
+    email.attach(parte)"""
     try:
-        smtp = smtplib.SMTP("smtp-mail.outlook.com",587)
+        smtp = smtplib.SMTP("smtp.gmail.com")
         smtp.starttls()
-        smtp.login(correo,contra)
-        smtp.sendmail(correo,destinatario,email.as_string())
+        print(correo)
+        smtp.login(correo,"LaBDetection@17.")
+        smtp.send_message(email)
         smtp.quit()
         return 1
-    except FileExistsError:
+    except smtplib.SMTPException as e:
+        print(f"Error {e}")
         return 0
 
 def validarCorreo(correo):
@@ -84,7 +87,7 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     entry_correo.place(relx=0.30,rely=0.45)
     alertLabel = Label(ventana_confirmar, text="*Formato de correo incorrecto", fg="#ff004e",bg=color5)
     
-    def validacion():
+    """def validacion():
         nombre="Juan Pérez"
         correo=entry_correoDoc.get()
         
@@ -103,8 +106,8 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
             
         else:
             alertLabel.place(relx=0.3,rely=0.75)
-        ventana_confirmar.after(2000,ocultarEtiqueta)
-    button_continuar2 = CTkButton(master=ventana_confirmar, text="Continuar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=validacion)
+        ventana_confirmar.after(2000,ocultarEtiqueta)"""
+    #button_continuar2 = CTkButton(master=ventana_confirmar, text="Continuar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=validacion)
     
     def ocultarEtiqueta():
         alertLabel.place_forget()
@@ -116,15 +119,12 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
         correoSend = entry_correo.get()
 
         if validarCorreo(correoSend):
-            lbl_text.configure(text="Ingrese su correo")
-            
-            lbl_advice.place(x=70, y=70)
-            entry_correo.place_forget()
-            entry_correoDoc.place(relx=0.30,rely=0.35)
-            entry_passDoc.place(relx=0.30,rely=0.55)
-            button.place_forget()
-            labelfondo.configure(image=fondo)
-            button_continuar2.place(relx=0.50, rely=0.88, anchor= tkinter.CENTER)
+            if enviarCorreo(correoSend,"Juan Perez") == 1:
+                entry_correo.place_forget()
+                labelfondo.configure(image=fondo3)
+                button.place_forget()
+                lbl_text.configure(text="¡Correo enviado exitosamente!")
+                ventana_confirmar.after(2000,exit)
 
         else:
             
