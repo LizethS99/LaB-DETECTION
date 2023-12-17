@@ -10,7 +10,7 @@ import os
 import customtkinter 
 from claseCentrar import centerScreen
 
-def Camara_Imagen(lista, lista2, lista3):
+def Camara_Imagen(lista, lista2, lista3,camera):
     color = '#003F79' # color menú lateral
     color2 = '#001E6F' #Azul muy oscuro
     color3 = '#48F0FA' #Azul muy claro
@@ -22,7 +22,7 @@ def Camara_Imagen(lista, lista2, lista3):
     model = YOLO('./runsSegmentation/train8/weights/best.pt')
 
     # Inicializar la cámara
-    video = cv2.VideoCapture(0)
+    video = cv2.VideoCapture(camera)
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
     # Crear una ventana de Tkinter
@@ -71,7 +71,7 @@ def Camara_Imagen(lista, lista2, lista3):
         captura=[]
         contCap=0
         tomarVideo=True
-        video = cv2.VideoCapture(0)
+        video = cv2.VideoCapture(camera)
         app.destroy()
 
         update_frame()
@@ -148,6 +148,6 @@ def Camara_Imagen(lista, lista2, lista3):
 
     return app_camera
 
-"""if __name__ == "__main__":
+#if __name__ == "__main__":
     # Llama a la función principal si se ejecuta este script directamente
-    Camara_Imagen()"""
+    #Camara_Imagen([],[],[])

@@ -100,31 +100,40 @@ def capturar(lista, lista2, lista3):
         label.place(relx=0.067, rely=0)
 
     default_home()
-
+    
     def Captura_Imagen():
         global file
         index = 0
         cameras=[]
+        camera = ""
+        def on_select(event):
+            global indice
+            indice = select_camera.get()
+            indice = cameras.index(indice)
+            print(indice)
+            app3.destroy() 
+            CamaraImagen.Camara_Imagen(lista, lista2, lista3,indice)
         while True:
             cap = cv2.VideoCapture(index)
             if not cap.isOpened():
                 cap.release()
                 break
             camera_name = f"Camara {index}"
-            cameras.append((index, camera_name))
+            cameras.append(camera_name)
             cap.release()
             index += 1
         print("Push Button")
-        
-        if len(cameras)==1:
-            capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3)
+        print(len(cameras))
+        if len(cameras)<2:
             app3.destroy() 
+            capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3,0)
+            
         else: 
-            custom_listbox = tkinter.Listbox(app3,selectmode=tkinter.MULTIPLE)
-            custom_listbox.place(relx=0.38, rely=0.78)
-            for item in cameras:
-                custom_listbox.insert(tkinter.END,item)
-          
+            select_camera = ttk.Combobox(app3, values=cameras, width=20, height= 10)
+            
+            select_camera.place(relx=0.32, rely=0.78)
+            select_camera.bind("<<ComboboxSelected>>", on_select)
+            print(camera)
 
 
     def Seleccionar_Imagen():
@@ -166,5 +175,5 @@ def capturar(lista, lista2, lista3):
     app3.mainloop()
 
     
-    #return app3
-capturar([],[],[])
+    return app3
+#capturar([],[],[])
