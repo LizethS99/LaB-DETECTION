@@ -406,7 +406,7 @@ def NewPantalla():
                 messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
                 return
         # Asegúrate de asociar esta función al botón correspondiente
-        boton_formulario_2 = Button(canvas, image=n_img, border=0, command=lambda: Datos_recabados_2(), cursor="hand2", activebackground="#4d7091", bg="#4B54A5")
+        boton_formulario_2 = Button(canvas, image=n_img, border=0, command=lambda: Datos_recabados_2(), cursor="hand2", activebackground="#4B54A5", bg="#4B54A5")
         canvas.create_window((700, 1140), window=boton_formulario_2)
         #############################################################################################################################
 
@@ -528,6 +528,50 @@ def NewPantalla():
         texto = "Hola, dentro de esta sección solo ingresa el tamaño que tiene la lesión, esto nos servirá para obtener los datos del ABCD, la asímetria, el borde y los colores los obtendremos nosotros"
         nota = tkinter.Label(canvas, text=texto, justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
         canvas.create_window((40, 50), window=nota, anchor='w')
+
+        lblD = tkinter.Label(canvas, text="Diametro de la lesión (en mm): ", justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 100), window=lblD, anchor='w')
+
+        etrD = tkinter.Entry(canvas, width=10)
+        canvas.create_window((500, 100), window=etrD, anchor='w')
+
+        lblestru = tkinter.Label(canvas, text="ESTRUCTURAS DERMATOSCÓPICAS ", justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 150), window=lblestru, anchor='w')
+        
+        lblest = tkinter.Label(canvas, text="Puntúa con un 1 o con 0 cada una de las estructuras dermatoscópicas. ", justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 200), window=lblest, anchor='w')
+
+        reticulo = tkinter.Label(canvas, text="Retículo pigmentado, tanto si es típico como atípico. ", justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((20, 250), window=reticulo, anchor='w')
+
+        etrreticulo = tkinter.Entry(canvas, width=10)
+        canvas.create_window((550, 250), window=etrreticulo, anchor='w')
+
+        areas = tkinter.Label(canvas, text="Áreas desestructuradas, que deben comprnder más del '10%' de la superficie de la lesión. ", justify=tkinter.LEFT, wraplength=500, background="#8D61B0", fg="black", font= ("Helvetica", 13), width=70) 
+        canvas.create_window((40, 300), window=areas, anchor='w')
+
+        etrareas= tkinter.Entry(canvas, width=10)
+        canvas.create_window((300, 310), window=etrareas, anchor='w')
+
+        punt = tkinter.Label(canvas, text="Puntos ", background="#8D61B0", fg="black", font= ("Helvetica", 13), width=50) 
+        canvas.create_window((20, 360), window=punt, anchor='w')
+
+        etrpuntos = tkinter.Entry(canvas, width=10)
+        canvas.create_window((300, 360), window=etrpuntos, anchor='w')
+
+        globulos = tkinter.Label(canvas, text="Glóbulos ", background="#8D61B0", fg="black", font= ("Helvetica", 13), width=50) 
+        canvas.create_window((20, 410), window=globulos, anchor='w')
+
+        etrglobulos = tkinter.Entry(canvas, width=10)
+        canvas.create_window((300, 410), window=etrglobulos, anchor='w')
+
+        ramifi = tkinter.Label(canvas, text="Ramificaciones lineales ", background="#8D61B0", fg="black", font= ("Helvetica", 13), width=50) 
+        canvas.create_window((20, 460), window=ramifi, anchor='w')
+
+        etrramifi = tkinter.Entry(canvas, width=10)
+        canvas.create_window((350, 460), window=etrramifi, anchor='w')
+
+
         global lista4
         lista4 = []
 

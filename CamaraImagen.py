@@ -127,7 +127,7 @@ def Camara_Imagen(lista, lista2, lista3,camera):
             boxes = resultado[0].plot()"""
 
             # Convertir la imagen de OpenCV a formato compatible con Tkinter
-            img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             img_tk = ImageTk.PhotoImage(image=img)
 
             # Mostrar la imagen en el lienzo

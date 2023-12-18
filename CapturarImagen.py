@@ -175,5 +175,5 @@ def capturar(lista, lista2, lista3):
     app3.mainloop()
 
     
-    return app3
-#capturar([],[],[])
+    #return app3
+capturar([],[],[])
