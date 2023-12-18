@@ -634,6 +634,6 @@ def NewPantalla():
     formularios()
     app2.mainloop()
 
-    #return app2
+    return app2
 
-NewPantalla()
+#NewPantalla()

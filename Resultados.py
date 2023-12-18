@@ -178,7 +178,7 @@ def Res(file, pdf):
             img_array = np.repeat(img_array,3,axis=-1)
         img_array=np.expand_dims(img_array,axis=0)
         code = autoencoder.predict(img_array)
-        result = cnn.predict(code)
+        result = cnn.predict(img_array)
         for i, val in np.ndenumerate(result):
             classify.append(val)
         
@@ -243,6 +243,6 @@ def Res(file, pdf):
      
 
     app5.mainloop()
-    return app5
-#img = "IMD004.bmp" 
-#Res(img)
+    #return app5
+img = "IMD004.bmp" 
+Res(img)
