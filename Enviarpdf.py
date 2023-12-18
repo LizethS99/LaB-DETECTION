@@ -7,7 +7,6 @@ from tkinter import PhotoImage, Frame, Label, Button, ttk, scrolledtext, filedia
 import os
 import numpy as np
 import cv2
-import crearpdf
 import re
 from claseCentrar import centerScreen
 import getpass
@@ -26,7 +25,7 @@ numeros = [1,2,3,4,5,6,7,8,9,0]
 simbolos =["#",".","$","&","%"]
 
 def enviarCorreo(destinatario, name):
-    correo = "labdetection@gmail.com"
+    correo = "lab_detection@outlook.com"
     email = MIMEMultipart()
     email["From"]=correo
     email["To"] = destinatario
@@ -34,14 +33,14 @@ def enviarCorreo(destinatario, name):
     generarContraPDF =random.choice(letras)+str(random.choice(numeros))+str(random.choice(numeros))+random.choice(letras2)+random.choice(letras2)+random.choice(simbolos)+str(random.choice(numeros))+random.choice(letras)+random.choice(letras2)+str(random.choice(numeros))+random.choice(letras2)
     mensaje = "Su contraseña del PDF es: "+generarContraPDF
     email.attach(MIMEText(mensaje,"plain"))
-    """with open("./Resultados_LaB_DETECTION.pdf","rb") as archivos:
+    with open("./Resultados_LaB_DETECTION.pdf","rb") as archivos:
         parte = MIMEBase("application","octet-stream")
         parte.set_payload(archivos.read())
     encoders.encode_base64(parte)
     parte.add_header("Content-Disposition",f"attachment; filename=Resultados_LaB-Detection.pdf")
-    email.attach(parte)"""
+    email.attach(parte)
     try:
-        smtp = smtplib.SMTP("smtp.gmail.com")
+        smtp = smtplib.SMTP("smtp-mail.outlook.com")
         smtp.starttls()
         print(correo)
         smtp.login(correo,"LaBDetection@17.")
@@ -60,10 +59,10 @@ def validarCorreo(correo):
     else:
         return False
 
-def confirmar_imagen(nfile, lista, lista2, lista3):
+def confirmar_imagen():
     global fondo
     color3 = '#48F0FA'
-    color5 = '#002266'
+    color5 = '#000334'
     ventana_confirmar = CTk()
     centro = centerScreen()
     fondo = Image.open("./Images/fondoLabel.png")
@@ -74,17 +73,17 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     fondo3 = ImageTk.PhotoImage(fondo3)
     ventana_confirmar.geometry(centro.situarLaB(500,300)) #Colocamos el tamaño de la ventana y en qué posición deseamos que aparezca (derecha+abajo)
     ventana_confirmar.config(bg=color5)
-    ventana_confirmar.title('Confirmar')
+    ventana_confirmar.title('Enviar resultados')
     ventana_confirmar.iconbitmap("Images\logo.ico")
     labelfondo = Label(ventana_confirmar, image=fondo2)
-    labelfondo.place(x=-1,y=-1)
+    labelfondo.place(x=-2,y=-2)
     lbl_text= Label(ventana_confirmar, text= "Ingrese el correo del paciente", background=color5, fg='white', font= ("Helvetica", 20))
-    lbl_text.place(x=70, y=30)
+    lbl_text.place(x=70, y=15)
     entry_correoDoc = customtkinter.CTkEntry(ventana_confirmar, placeholder_text="ejemplo_doctor@outlook.com", width=250, height=40, border_width=2, corner_radius=10, fg_color="#FFFFFF",text_color="#000000",border_color=color3)
     entry_passDoc = customtkinter.CTkEntry(ventana_confirmar, placeholder_text="●●●●●●●●●", width=250, height=40, border_width=2, corner_radius=10, fg_color="#FFFFFF",text_color="#000000",border_color=color3,show="●")
     lbl_advice = Label(ventana_confirmar, text="*Por su seguridad siempre se pedirá su contraseña", bg=color5,fg="white")
     entry_correo = customtkinter.CTkEntry(ventana_confirmar, placeholder_text="ejemplo_correo@outlook.com", width=250, height=40, border_width=2, corner_radius=10, fg_color="#FFFFFF",text_color="#000000",border_color=color3)
-    entry_correo.place(relx=0.30,rely=0.45)
+    entry_correo.place(relx=0.30,rely=0.35)
     alertLabel = Label(ventana_confirmar, text="*Formato de correo incorrecto", fg="#ff004e",bg=color5)
     
     """def validacion():
@@ -134,7 +133,7 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
         ventana_confirmar.after(2000,ocultarEtiqueta)
 
     button_continuar = CTkButton(master=ventana_confirmar, text="Continuar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:buttonPress(button_continuar))
-    button_continuar.place(relx=0.50, rely=0.88, anchor= tkinter.CENTER) 
+    button_continuar.place(relx=0.50, rely=0.68, anchor= tkinter.CENTER) 
     
     ventana_confirmar.mainloop()
 
@@ -144,4 +143,4 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     #return ventana_confirmar
 
 nfile = 'IMD004.bmp'
-confirmar_imagen(nfile,[],[],[])
+confirmar_imagen()
