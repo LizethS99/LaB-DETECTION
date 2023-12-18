@@ -15,7 +15,7 @@ from claseCentrar import centerScreen
 
 
 
-def capturar(lista, lista2, lista3):
+def capturar(lista, lista2, lista3, lista4):
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
 
@@ -112,7 +112,7 @@ def capturar(lista, lista2, lista3):
             indice = cameras.index(indice)
             print(indice)
             app3.destroy() 
-            CamaraImagen.Camara_Imagen(lista, lista2, lista3,indice)
+            CamaraImagen.Camara_Imagen(lista, lista2, lista3, lista4,indice)
         while True:
             cap = cv2.VideoCapture(index)
             if not cap.isOpened():
@@ -126,7 +126,7 @@ def capturar(lista, lista2, lista3):
         print(len(cameras))
         if len(cameras)<2:
             app3.destroy() 
-            capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3,0)
+            capturaImage = CamaraImagen.Camara_Imagen(lista, lista2, lista3, lista4,0)
             
         else: 
             select_camera = ttk.Combobox(app3, values=cameras, width=20, height= 10)
@@ -143,7 +143,7 @@ def capturar(lista, lista2, lista3):
         file = file_path
         print(file_path)
         app3.destroy()
-        confir_img = confirmar.confirmar_imagen(file, lista, lista2, lista3)
+        confir_img = confirmar.confirmar_imagen(file, lista, lista2, lista3, lista4)
 
 
     imagen_camara = Image.open('Images\camara-2.png')
@@ -175,5 +175,5 @@ def capturar(lista, lista2, lista3):
     app3.mainloop()
 
     
-    #return app3
-capturar([],[],[])
+    return app3
+#capturar([],[],[])
