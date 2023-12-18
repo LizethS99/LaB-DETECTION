@@ -22,9 +22,15 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from cryptography.fernet import Fernet
 from PyPDF2 import PdfReader, PdfWriter, PdfFileReader
 import PyPDF2
+import random
+import Enviarpdf
 #from keras.models import load_model
+letras =["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+letras2 =["a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"]
+numeros = [1,2,3,4,5,6,7,8,9,0]
+simbolos =["#",".","$","&","%"]
 
-def Res(file, pdf):
+def Res(file, pdf,name):
     customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("dark-blue") # Themes: blue (default), dark-blue, green
 
@@ -94,10 +100,10 @@ def Res(file, pdf):
 
         def salir(screen):
             screen.destroy()
-            if os.path.exists(pdf):
+            """if os.path.exists(pdf):
                 os.remove(pdf)
             if os.path.exists("image_select.bmp"):
-                os.remove("image_select.bmp")
+                os.remove("image_select.bmp")"""
             messagebox.showinfo("Salir", "Vuelva pronto")
             sys.exit(0)
 
@@ -175,10 +181,11 @@ def Res(file, pdf):
                 canvas_imagen.image = imagen_tk
         cargar_imagen()
         classify=[]
-        #autoencoder=tf.keras.models.load_model('./Modelo/autoencoder')
-        #cnn=tf.keras.models.load_model('./Modelo/LaB-CNN')
-        autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
-        cnn=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/Downloads/PruebasRendimiento/LaB-CNN')
+        print(os.path.abspath("Modelo/autoencoder"))
+        autoencoder=tf.keras.models.load_model('./Modelo/autoencoder_LaBCNN')
+        cnn=tf.keras.models.load_model('./Modelo/LaB-CNN-fn')
+        #autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
+        #cnn=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/Downloads/PruebasRendimiento/LaB-CNN')
         classes = ["Atipica","Comun","Melanoma"]
         image = Image.open(file)
         image = image.resize((128,128))
@@ -239,19 +246,17 @@ def Res(file, pdf):
                     visor_pdf_global.save(nomArchivo)
                     
                     mb.showinfo("Información", "El PDF ha sido guardado correctamente.")
-                    visor_pdf_global.close()
+                    #visor_pdf_global.close()
                     ventana_guardar.destroy()
                 else:
                     mb.showwarning("Advertencia", "No hay un PDF cargado para descargar.")
 
         def enviar_pdf():
-            visor_pdf_global.close()
+            #visor_pdf_global.close()
             #Cifrar el pdf con los datos
             try:
-                # Abrir el PDF original
-                with open(pdf, 'rb') as file:
-                    npdf = PyPDF2.PdfFileReader(file)
-                #npdf = PdfReader(open(pdf, "rb"))
+                # Abrir el PDF original)
+                npdf = PdfReader(open(pdf, "rb"))
 
                 # Crear un PDF cifrado
                 pdf_cifrado = PdfWriter()
@@ -263,7 +268,8 @@ def Res(file, pdf):
                 # Crear una clave Fernet
                 clave = Fernet.generate_key()
                 fernet = Fernet(clave)
-                password = b'Melanoma'
+                generarContraPDF =random.choice(letras)+str(random.choice(numeros))+str(random.choice(numeros))+random.choice(letras2)+random.choice(letras2)+random.choice(simbolos)+str(random.choice(numeros))+random.choice(letras)+random.choice(letras2)+str(random.choice(numeros))+random.choice(letras2)
+                password = generarContraPDF.encode()
                 # Convertir la contraseña a cadena (string)
                 password_str = password.decode('utf-8')
                 print(password_str)
@@ -274,9 +280,11 @@ def Res(file, pdf):
                 # Guardar el PDF cifrado
                 with open("documento_cifrado.pdf", "wb") as pdf_cifrado_file:
                     pdf_cifrado.write(pdf_cifrado_file)
-                    pdf_cifrado.close()
+                    #pdf_cifrado.close()
+                ventana_guardar.destroy()
+                app5.destroy()
 
-                print("PDF cifrado exitosamente.")
+                Enviarpdf.enviar_PDF_LaB(password_str,name)
                 
             except Exception as e:
                 print("Error al cifrar el PDF:", str(e))
@@ -300,5 +308,5 @@ def Res(file, pdf):
 
     app5.mainloop()
     return app5
-#img = "IMD004.bmp" 
+img = "IMD004.bmp" 
 #Res(img)

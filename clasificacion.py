@@ -12,9 +12,9 @@ import cv2
 from keras.utils import plot_model
 import time
 
-autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
-#autoencoder=tf.keras.models.load_model('./Modelo/autoencoder')
-cnn=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/Downloads/PruebasRendimiento/LaB-CNN')
+#autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
+autoencoder=tf.keras.models.load_model('./Modelo/autoencoder_LaBCNN')
+cnn=tf.keras.models.load_model('./Modelo/LaB-CNN-fn')
 def clasificacion_imagen(img):
     classify=[]
     classes = ["Atipica","Comun","Melanoma"]
@@ -27,7 +27,7 @@ def clasificacion_imagen(img):
     
     
 
-image = Image.open("./image_select.bmp")
+image = Image.open("./IMD004.bmp")
 image = image.resize((128,128))
 img_array = np.array(image)
 img_array = img_array.astype('float32')/255.0

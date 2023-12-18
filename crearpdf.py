@@ -140,6 +140,6 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     # Construir el PDF
     pdf.build(elementos)
     
-    pantallanueva = Resultados.Res(nfile, file_path)
+    pantallanueva = Resultados.Res(nfile, file_path,lista[0])
 
 
