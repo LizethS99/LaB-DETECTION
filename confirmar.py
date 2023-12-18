@@ -56,7 +56,7 @@ def confirmar_imagen(nfile, lista, lista2, lista3, lista4):
         print("Push Button")
         ventana_confirmar.destroy()
         #clasific = clasificacion.clasificacion_imagen()
-        file_path = ".\Resultados_LaB_DETECTION.pdf"
+        file_path = ".\ResultadoTemporal.pdf"
         generar_pdf = crearpdf.crear_pdf(file_path, nfile, lista, lista2, lista3, lista4)
 
     button_nuevo = CTkButton(master=ventana_confirmar, text="Nueva Imagen", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:NImage())

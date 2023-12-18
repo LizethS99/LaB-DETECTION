@@ -17,6 +17,11 @@ import sys
 import LaB_DETECTION
 import Acercade
 import cancer_piel
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from cryptography.fernet import Fernet
+from PyPDF2 import PdfReader, PdfWriter, PdfFileReader
+import PyPDF2
 #from keras.models import load_model
 
 def Res(file, pdf):
@@ -87,7 +92,12 @@ def Res(file, pdf):
                 mybutton1.configure(fg="#595959", state="disabled")
             mybutton1.place(x=x, y=y)
 
-        def salir():
+        def salir(screen):
+            screen.destroy()
+            if os.path.exists(pdf):
+                os.remove(pdf)
+            if os.path.exists("image_select.bmp"):
+                os.remove("image_select.bmp")
             messagebox.showinfo("Salir", "Vuelva pronto")
             sys.exit(0)
 
@@ -112,7 +122,7 @@ def Res(file, pdf):
         Botones(0, 90, 'Cáncer de piel', color4,color2, 1, lambda: Cancer_d_piel(app5, ruta, ruta2))
         Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
         Botones(0, 170, 'Nuevo análisis', color4,color2, 1, lambda: NPantalla(app5))
-        Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())
+        Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir(app5))
         Botones(0, 250, 'Inicio', color4,color2, 1, lambda: Home(app5))
 
         def dele():
@@ -165,10 +175,12 @@ def Res(file, pdf):
                 canvas_imagen.image = imagen_tk
         cargar_imagen()
         classify=[]
-        autoencoder=tf.keras.models.load_model('./Modelo/autoencoder')
-        cnn=tf.keras.models.load_model('./Modelo/LaB-CNN')
+        #autoencoder=tf.keras.models.load_model('./Modelo/autoencoder')
+        #cnn=tf.keras.models.load_model('./Modelo/LaB-CNN')
+        autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
+        cnn=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/Downloads/PruebasRendimiento/LaB-CNN')
         classes = ["Atipica","Comun","Melanoma"]
-        image = Image.open("./image_select.bmp")
+        image = Image.open(file)
         image = image.resize((128,128))
         img_array = np.array(image)
         img_array = img_array.astype('float32')/255.0
@@ -189,6 +201,7 @@ def Res(file, pdf):
         ResClass = CTkLabel(app5,text=classfy,bg_color='white', fg_color="#050c2d")
         ResClass.place(relx=0.2, rely=0.77)
         classify.clear()
+
         def cargar_pdf():
             pdf_path = pdf
             if pdf_path:
@@ -203,6 +216,7 @@ def Res(file, pdf):
                 canvas_pdf.image = imagen_tk
                 global visor_pdf_global
                 visor_pdf_global = visor_pdf
+                
         cargar_pdf()
 
     Previ()
@@ -217,21 +231,63 @@ def Res(file, pdf):
         ventana_guardar.config(bg=color5)
 
         def descargar():
+            
             print(visor_pdf_global)
             if visor_pdf_global is not None and visor_pdf_global.page_count > 0:
-                nomArchivo = fd.asksaveasfilename(initialdir="C:/Users/USER/OneDrive/Escritorio/AImages", title="Guardar como", defaultextension=".pdf")
+                nomArchivo = fd.asksaveasfilename(initialdir="C:/Users/USER/OneDrive/Escritorio/AImages", title="Guardar como",initialfile="Resultados_LaB_DETECTION_", defaultextension=".pdf")
                 if nomArchivo != '':
                     visor_pdf_global.save(nomArchivo)
+                    
                     mb.showinfo("Información", "El PDF ha sido guardado correctamente.")
+                    visor_pdf_global.close()
                     ventana_guardar.destroy()
                 else:
                     mb.showwarning("Advertencia", "No hay un PDF cargado para descargar.")
 
+        def enviar_pdf():
+            visor_pdf_global.close()
+            #Cifrar el pdf con los datos
+            try:
+                # Abrir el PDF original
+                with open(pdf, 'rb') as file:
+                    npdf = PyPDF2.PdfFileReader(file)
+                #npdf = PdfReader(open(pdf, "rb"))
 
-        button_opcion1 = customtkinter.CTkButton(master=ventana_guardar, text="Descargar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=descargar)
+                # Crear un PDF cifrado
+                pdf_cifrado = PdfWriter()
+
+                for page_num in range(len(npdf.pages)):
+                    page = npdf.pages[page_num]
+                    pdf_cifrado.add_page(page)
+
+                # Crear una clave Fernet
+                clave = Fernet.generate_key()
+                fernet = Fernet(clave)
+                password = b'Melanoma'
+                # Convertir la contraseña a cadena (string)
+                password_str = password.decode('utf-8')
+                print(password_str)
+
+                # Establecer la contraseña del PDF en formato de cadena
+                pdf_cifrado.encrypt(password_str, use_128bit=True) # aquí se le agrega password_cifrado.decode('utf-8')
+                
+                # Guardar el PDF cifrado
+                with open("documento_cifrado.pdf", "wb") as pdf_cifrado_file:
+                    pdf_cifrado.write(pdf_cifrado_file)
+                    pdf_cifrado.close()
+
+                print("PDF cifrado exitosamente.")
+                
+            except Exception as e:
+                print("Error al cifrar el PDF:", str(e))
+            
+            ventana_guardar.destroy()
+
+        
+        button_opcion1 = customtkinter.CTkButton(master=ventana_guardar, text="Descargar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda: descargar())
         button_opcion1.place(relx=0.30, rely=0.4, anchor= tkinter.CENTER) 
 
-        button_opcion2 = customtkinter.CTkButton(master=ventana_guardar, text="Enviar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=descargar)
+        button_opcion2 = customtkinter.CTkButton(master=ventana_guardar, text="Enviar", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda: enviar_pdf())
         button_opcion2.place(relx=0.70, rely=0.4, anchor= tkinter.CENTER) 
 
         ventana_guardar.mainloop()

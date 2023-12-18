@@ -11,6 +11,7 @@ import cv2
 import confirmar
 import CamaraImagen 
 from claseCentrar import centerScreen
+import Forms 
 #from keras.models import load_model
 
 
@@ -68,11 +69,15 @@ def capturar(lista, lista2, lista3, lista4):
         def salir():
             messagebox.showinfo("Salir", "Vuelva pronto")
             sys.exit(0)
+        
+        def NPantalla(screen):
+            screen.destroy()
+            nuevo_analisis = Forms.NewPantalla()
 
-        Botones(0, 50, 'Acerca de', color4,color2, 1, None)
-        Botones(0, 90, 'Cáncer de piel', color4,color2, 1, None)
-        Botones(0, 130, 'Redes neuronales', color4,color2, 1, None)
-        Botones(0, 170, 'Nuevo análisis', color4,color2, 0, None)
+        Botones(0, 50, 'Acerca de', color4,color2, 0, None)
+        Botones(0, 90, 'Cáncer de piel', color4,color2, 0, None)
+        Botones(0, 130, 'Redes neuronales', color4,color2, 0, None)
+        Botones(0, 170, 'Nuevo análisis', color4,color2, 1, lambda: NPantalla(app3))
         Botones(0, 210, 'Salir', color4,color2, 1, lambda: salir())
 
         def dele():

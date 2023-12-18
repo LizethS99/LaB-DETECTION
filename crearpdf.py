@@ -11,6 +11,7 @@ from tkinter import  messagebox
 import Resultados
 
 def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
+    
     texto = "Espere un momento, los resultados se están obteniendo."    
     messagebox.showinfo("Cargando...", texto)
 
@@ -73,7 +74,7 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     facto_bordes = bordes * 0.1
     colores = 4
     facto_colores = colores * 0.5
-    estructuras = lista4[1]+lista4[2]+lista4[3]+lista4[4]+lista4[5]
+    estructuras = int(lista4[1])+int(lista4[2])+int(lista4[3])+int(lista4[4])+int(lista4[5])
     estructuras2 = float(estructuras)
     factorestruc = estructuras2 * 0.5
     # Crea una tabla para organizar los fragmentos de texto
@@ -125,11 +126,11 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     elementos.append(tabla2)
     elementos.append(Spacer(1, espacio))
     if dermaTotal < 4.75 :
-        res = f"Resultados egún el ABCD: {dermaTotal} Benigna "
+        res = f"Resultados según el ABCD: {dermaTotal} Benigna "
     elif dermaTotal >4.8 and dermaTotal <5.45 :
-        res = f"Resultados egún el ABCD: {dermaTotal} Sospechosa "
+        res = f"Resultados según el ABCD: {dermaTotal} Sospechosa "
     elif dermaTotal >5.45:
-        res = f"Resultados egún el ABCD: {dermaTotal} Maligna "
+        res = f"Resultados según el ABCD: {dermaTotal} Maligna "
     elementos.append(Paragraph(res, style=ParagraphStyle(name='Normal', fontSize=10)))
     elementos.append(Spacer(1, espacio))
     # Pie de página con advertencia
@@ -138,6 +139,7 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
 
     # Construir el PDF
     pdf.build(elementos)
+    
     pantallanueva = Resultados.Res(nfile, file_path)
 
 
