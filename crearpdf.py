@@ -74,7 +74,8 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     colores = 4
     facto_colores = colores * 0.5
     estructuras = lista4[1]+lista4[2]+lista4[3]+lista4[4]+lista4[5]
-    factorestruc = estructuras * 0.5
+    estructuras2 = float(estructuras)
+    factorestruc = estructuras2 * 0.5
     # Crea una tabla para organizar los fragmentos de texto
     datos = [["ASIMETRÍA"],
         [puntuacion_texto + "0 a 2", f"____{asimetri}_____", factor_texto + "1,3", f"{facto_asimetria}"],
@@ -123,12 +124,12 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     # Agrega la tabla a la lista de elementos
     elementos.append(tabla2)
     elementos.append(Spacer(1, espacio))
-    if indice < 4.75 :
-        res = f"Resultados egún el ABCD: {indice} Benigna "
-    elif indice >4.8 and indice <5.45 :
-        res = f"Resultados egún el ABCD: {indice} Sospechosa "
-    elif indice >5.45:
-        res = f"Resultados egún el ABCD: {indice} Maligna "
+    if dermaTotal < 4.75 :
+        res = f"Resultados egún el ABCD: {dermaTotal} Benigna "
+    elif dermaTotal >4.8 and dermaTotal <5.45 :
+        res = f"Resultados egún el ABCD: {dermaTotal} Sospechosa "
+    elif dermaTotal >5.45:
+        res = f"Resultados egún el ABCD: {dermaTotal} Maligna "
     elementos.append(Paragraph(res, style=ParagraphStyle(name='Normal', fontSize=10)))
     elementos.append(Spacer(1, espacio))
     # Pie de página con advertencia

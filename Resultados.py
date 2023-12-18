@@ -243,6 +243,6 @@ def Res(file, pdf):
      
 
     app5.mainloop()
-    #return app5
-img = "IMD004.bmp" 
-Res(img)
+    return app5
+#img = "IMD004.bmp" 
+#Res(img)
