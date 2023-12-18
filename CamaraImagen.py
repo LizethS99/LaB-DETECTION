@@ -10,7 +10,7 @@ import os
 import customtkinter 
 from claseCentrar import centerScreen
 
-def Camara_Imagen(lista, lista2, lista3,camera):
+def Camara_Imagen(lista, lista2, lista3, lista4,camera):
     color = '#003F79' # color menú lateral
     color2 = '#001E6F' #Azul muy oscuro
     color3 = '#48F0FA' #Azul muy claro
@@ -91,7 +91,7 @@ def Camara_Imagen(lista, lista2, lista3,camera):
         global Gfile
         gfile = "\image_select.bmp"
         Gfile = os.path.dirname(__file__)+gfile
-        nextStep = confirmar.confirmar_imagen(Gfile, lista, lista2, lista3)
+        nextStep = confirmar.confirmar_imagen(Gfile, lista, lista2, lista3, lista4)
     def ventana_seleccion():
         global captura, img, capturaR, tomarVideo
         tomarVideo=False

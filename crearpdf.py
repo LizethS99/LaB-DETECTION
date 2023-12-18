@@ -10,7 +10,8 @@ from reportlab.lib.units import inch
 from tkinter import  messagebox
 import Resultados
 
-def crear_pdf(file_path, nfile, lista, lista2, lista3):
+def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
+    
     texto = "Espere un momento, los resultados se están obteniendo."    
     messagebox.showinfo("Cargando...", texto)
 
@@ -58,7 +59,7 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
     elementos.append(Paragraph(texto1, style=ParagraphStyle(name='Normal', fontSize=12)))
     espacio2 = 0.2 * inch
     elementos.append(Spacer(1, espacio2))
-    texto2 = "Asimetría:"
+    texto2 = f"Diametro de la lesión: {lista4[0]}"
     elementos.append(Paragraph(texto2, style=ParagraphStyle(name='Normal', fontSize=12)))
 
     puntuacion_texto = "Puntuación:"
@@ -67,19 +68,27 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
     # Agrega espacio antes de la tabla
     
     elementos.append(Spacer(1, espacio2))
-
+    asimetri = 1
+    facto_asimetria = asimetri * 1.3
+    bordes = 8
+    facto_bordes = bordes * 0.1
+    colores = 4
+    facto_colores = colores * 0.5
+    estructuras = int(lista4[1])+int(lista4[2])+int(lista4[3])+int(lista4[4])+int(lista4[5])
+    estructuras2 = float(estructuras)
+    factorestruc = estructuras2 * 0.5
     # Crea una tabla para organizar los fragmentos de texto
     datos = [["ASIMETRÍA"],
-        [puntuacion_texto, "__________", factor_texto, "________ 1,3"],
+        [puntuacion_texto + "0 a 2", f"____{asimetri}_____", factor_texto + "1,3", f"{facto_asimetria}"],
         ["BORDES"],
-        [puntuacion_texto, "__________", factor_texto, "________ 0,1"],
+        [puntuacion_texto + "0 a 8", f"____{bordes}_____", factor_texto + "0,1", f"{facto_bordes}"],
         ["COLORES"],
-        [puntuacion_texto, "__________", factor_texto, "________ 0,5"],
-        ["DIÁMETRO"],
-        [puntuacion_texto, "__________", factor_texto, "________ 0,5"]
+        [puntuacion_texto + "1 a 6", f"____{colores}_____", factor_texto + "0,5", f"{facto_colores}"],
+        ["DIF. ESTRUCTURAS"],
+        [puntuacion_texto + "1 a 5", f"____{estructuras}_____", factor_texto + "0,5", f"{factorestruc}"]
     ]
 
-    tabla = Table(datos, colWidths=[1.5*inch, 1*inch, 2*inch, 1.5*inch], hAlign='LEFT')
+    tabla = Table(datos, colWidths=[2*inch, 1.5*inch, 2*inch, 1.5*inch], hAlign='LEFT')
     
     # Aplica estilos a la tabla
     estilo_tabla = TableStyle([
@@ -92,8 +101,9 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
     # Agrega la tabla a la lista de elementos
     elementos.append(tabla)
     elementos.append(Spacer(1, espacio))
-    texto2 = "Índice dermatoscópico total:"
-    elementos.append(Paragraph(texto2, style=ParagraphStyle(name='Normal', fontSize=12)))
+    dermaTotal = facto_asimetria + facto_bordes + facto_colores + factorestruc
+    indice = f"Índice dermatoscópico total: {dermaTotal}"
+    elementos.append(Paragraph(indice, style=ParagraphStyle(name='Normal', fontSize=12)))
     elementos.append(Spacer(1, espacio))
 
     # Crea una tabla2 para organizar los fragmentos de texto
@@ -115,28 +125,13 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
     # Agrega la tabla a la lista de elementos
     elementos.append(tabla2)
     elementos.append(Spacer(1, espacio))
-
-    # Datos de la tabla (se pueden modificar)
-    """datos_tabla = [
-        ["A", "B", "C", "D", "E"],
-        ["1", "2", "3", "4", "5"],
-        ["6", "7", "8", "9", "10"],
-        ["11", "12", "13", "14", "15"]
-    ]
-
-    # Configurar estilos para la tabla
-    estilo_tabla = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                                ('GRID', (0, 0), (-1, -1), 1, colors.black)])
-
-    # Crear la tabla
-    tabla = Table(datos_tabla)
-    tabla.setStyle(estilo_tabla)
-    elementos.append(tabla)"""
+    if dermaTotal < 4.75 :
+        res = f"Resultados según el ABCD: {dermaTotal} Benigna "
+    elif dermaTotal >4.8 and dermaTotal <5.45 :
+        res = f"Resultados según el ABCD: {dermaTotal} Sospechosa "
+    elif dermaTotal >5.45:
+        res = f"Resultados según el ABCD: {dermaTotal} Maligna "
+    elementos.append(Paragraph(res, style=ParagraphStyle(name='Normal', fontSize=10)))
     elementos.append(Spacer(1, espacio))
     # Pie de página con advertencia
     advertencia = "El contenido de este documento no suple el diagnóstico de un médico"
@@ -144,6 +139,7 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3):
 
     # Construir el PDF
     pdf.build(elementos)
+    
     pantallanueva = Resultados.Res(nfile, file_path)
 
 

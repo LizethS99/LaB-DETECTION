@@ -11,7 +11,7 @@ import CapturarImagen
 import crearpdf
 from claseCentrar import centerScreen
 
-def confirmar_imagen(nfile, lista, lista2, lista3):
+def confirmar_imagen(nfile, lista, lista2, lista3, lista4):
     color3 = '#48F0FA'
     color5 = '#0D2764'
     ventana_confirmar = CTk()
@@ -50,14 +50,14 @@ def confirmar_imagen(nfile, lista, lista2, lista3):
     def NImage():
         print("Push Button")
         ventana_confirmar.destroy()
-        nuevo_analisis = CapturarImagen.capturar(lista, lista2, lista3)
+        nuevo_analisis = CapturarImagen.capturar(lista, lista2, lista3, lista4)
 
     def Continuar():
         print("Push Button")
         ventana_confirmar.destroy()
         #clasific = clasificacion.clasificacion_imagen()
-        file_path = ".\Resultados_LaB_DETECTION.pdf"
-        generar_pdf = crearpdf.crear_pdf(file_path, nfile, lista, lista2, lista3)
+        file_path = ".\ResultadoTemporal.pdf"
+        generar_pdf = crearpdf.crear_pdf(file_path, nfile, lista, lista2, lista3, lista4)
 
     button_nuevo = CTkButton(master=ventana_confirmar, text="Nueva Imagen", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda:NImage())
     button_nuevo.place(relx=0.28, rely=0.88, anchor= tkinter.CENTER) 

@@ -571,36 +571,38 @@ def NewPantalla():
         etrramifi = tkinter.Entry(canvas, width=10)
         canvas.create_window((350, 460), window=etrramifi, anchor='w')
 
-
         global lista4
         lista4 = []
 
         def Datos_recabados_4(screen):
             
-            respuesta1 = selectoption_1.get()
-            lista3.append(respuesta1)
+            res1 = etrD.get()
+            lista4.append(res1)
             
-            respuesta2 = etr1.get()
-            lista3.append(respuesta2)
+            res2 = etrreticulo.get()
+            lista4.append(res2)
 
-            respuesta3 = selectoption_02.get()
-            lista3.append(respuesta3)
+            res3 = etrareas.get()
+            lista4.append(res3)
 
-            respuesta4 = etr2.get()
-            lista3.append(respuesta4)
+            res4 = etrpuntos.get()
+            lista4.append(res4)
 
-            respuesta5 = selectoption_3.get()
-            lista3.append(respuesta5)
+            res5 = etrglobulos.get()
+            lista4.append(res5)
+
+            res6 = etrramifi.get()
+            lista4.append(res6)
 
             print(len(lista3))
 
             # Cambiar a la siguiente pestaña
-            if not all([respuesta1, respuesta2, respuesta3, respuesta4, respuesta5  ]):
+            if not all([res1, res2, res3, res4, res5, res6  ]):
                 messagebox.showerror("Error", "Para poder continuar, debe llenar todos los campos.")
                 return
             else :
                 screen.destroy()
-                datos = CapturarImagen.capturar(lista, lista2, lista3) 
+                datos = CapturarImagen.capturar(lista, lista2, lista3, lista4) 
         button_siguiente = CTkButton(master=app2, text="Siguiente", border_width=1.5 ,border_color=color3, font=('Arial', 16), height=50, command=lambda: Datos_recabados_4(app2))
         button_siguiente.place(relx=0.78, rely=0.936, anchor= tkinter.CENTER)
         
