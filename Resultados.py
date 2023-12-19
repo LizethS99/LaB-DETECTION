@@ -181,50 +181,63 @@ def Res(file, pdf,name):
                 canvas_imagen.image = imagen_tk
         cargar_imagen()
         classify=[]
-        print(os.path.abspath("Modelo/autoencoder"))
-        autoencoder=tf.keras.models.load_model('./Modelo/autoencoder_LaBCNN')
-        cnn=tf.keras.models.load_model('./Modelo/LaB-CNN-fn')
-        #autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
-        #cnn=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/Downloads/PruebasRendimiento/LaB-CNN')
-        classes = ["Atipica","Comun","Melanoma"]
-        image = Image.open(file)
-        image = image.resize((128,128))
-        img_array = np.array(image)
-        img_array = img_array.astype('float32')/255.0
-        if img_array.ndim==2:
-            img_array=np.stack((img_array)*3,axis=-1)
-        elif img_array.shape[2]==1:
-            img_array = np.repeat(img_array,3,axis=-1)
-        img_array=np.expand_dims(img_array,axis=0)
-        code = autoencoder.predict(img_array)
-        result = cnn.predict(img_array)
-        for i, val in np.ndenumerate(result):
-            classify.append(val)
-        
-        classfy = "Imagen clasificada como: "+classes[classify.index(max(classify))]
-        texto = "Los detalles del resultado puede encontrarlos en el PDF que se muestra a su derecha"
-        Res = CTkLabel(app5,text=texto, bg_color='white', fg_color="#050c2d") 
-        Res.place(relx=0.55, rely=0.07)
-        ResClass = CTkLabel(app5,text=classfy,bg_color='white', fg_color="#050c2d")
-        ResClass.place(relx=0.2, rely=0.77)
-        classify.clear()
+        if os.path.exists("RutaKeras.txt"):
+            # Leer las rutas desde el archivo
+            with open("RutaKeras.txt", "r") as archivo:
+                lineas = archivo.readlines()
+            
+            # Asegurarse de que hay al menos dos líneas en el archivo
+            if len(lineas) >= 2:
+                # Eliminar posibles espacios en blanco al principio y al final de cada línea
+                ruta_autoencoder = lineas[0].strip()
+                ruta_cnn = lineas[1].strip()
 
-        def cargar_pdf():
-            pdf_path = pdf
-            if pdf_path:
-                visor_pdf = fitz.open(pdf_path)
-                primera_pagina = visor_pdf.load_page(0)
-                pix = primera_pagina.get_pixmap(matrix=fitz.Matrix(1, 1))
-                imagen = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                imagen = imagen.resize((380, 500), resample=Image.Resampling.LANCZOS)
-                imagen_tk = ImageTk.PhotoImage(imagen)
-                canvas_pdf.config(width=380, height=500)
-                canvas_pdf.create_image(0, 0, anchor=tkinter.NW, image=imagen_tk)
-                canvas_pdf.image = imagen_tk
-                global visor_pdf_global
-                visor_pdf_global = visor_pdf
+                # Cargar modelos Keras desde las rutas
+                autoencoder = tf.keras.models.load_model(ruta_autoencoder)
+                cnn = tf.keras.models.load_model(ruta_cnn)
+
+                """print(os.path.abspath("Modelo/autoencoder"))
+                autoencoder=tf.keras.models.load_model('./Modelo/autoencoder_LaBCNN')
+                cnn=tf.keras.models.load_model('./Modelo/LaB-CNN-fn')"""
+                classes = ["Atipica","Comun","Melanoma"]
+                image = Image.open(file)
+                image = image.resize((128,128))
+                img_array = np.array(image)
+                img_array = img_array.astype('float32')/255.0
+                if img_array.ndim==2:
+                    img_array=np.stack((img_array)*3,axis=-1)
+                elif img_array.shape[2]==1:
+                    img_array = np.repeat(img_array,3,axis=-1)
+                img_array=np.expand_dims(img_array,axis=0)
+                code = autoencoder.predict(img_array)
+                result = cnn.predict(img_array)
+                for i, val in np.ndenumerate(result):
+                    classify.append(val)
                 
-        cargar_pdf()
+                classfy = "Imagen clasificada como: "+classes[classify.index(max(classify))]
+                texto = "Los detalles del resultado puede encontrarlos en el PDF que se muestra a su derecha"
+                Res = CTkLabel(app5,text=texto, bg_color='white', fg_color="#050c2d") 
+                Res.place(relx=0.55, rely=0.07)
+                ResClass = CTkLabel(app5,text=classfy,bg_color='white', fg_color="#050c2d")
+                ResClass.place(relx=0.2, rely=0.77)
+                classify.clear()
+
+                def cargar_pdf():
+                    pdf_path = pdf
+                    if pdf_path:
+                        visor_pdf = fitz.open(pdf_path)
+                        primera_pagina = visor_pdf.load_page(0)
+                        pix = primera_pagina.get_pixmap(matrix=fitz.Matrix(1, 1))
+                        imagen = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                        imagen = imagen.resize((380, 500), resample=Image.Resampling.LANCZOS)
+                        imagen_tk = ImageTk.PhotoImage(imagen)
+                        canvas_pdf.config(width=380, height=500)
+                        canvas_pdf.create_image(0, 0, anchor=tkinter.NW, image=imagen_tk)
+                        canvas_pdf.image = imagen_tk
+                        global visor_pdf_global
+                        visor_pdf_global = visor_pdf
+                        
+                cargar_pdf()
 
     Previ()
 

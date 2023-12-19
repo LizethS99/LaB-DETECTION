@@ -13,8 +13,23 @@ from keras.utils import plot_model
 import time
 
 #autoencoder=tf.keras.models.load_model('C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/LaB-DETECTION/Modelo/autoencoder')
-autoencoder=tf.keras.models.load_model('./Modelo/autoencoder_LaBCNN')
-cnn=tf.keras.models.load_model('./Modelo/LaB-CNN-fn')
+if os.path.exists("RutaKeras.txt"):
+            # Leer las rutas desde el archivo
+            with open("RutaKeras.txt", "r") as archivo:
+                lineas = archivo.readlines()
+            
+            # Asegurarse de que hay al menos dos líneas en el archivo
+            if len(lineas) >= 2:
+                # Eliminar posibles espacios en blanco al principio y al final de cada línea
+                ruta_autoencoder = lineas[0].strip()
+                ruta_cnn = lineas[1].strip()
+
+                # Cargar modelos Keras desde las rutas
+                autoencoder = tf.keras.models.load_model(ruta_autoencoder)
+                cnn = tf.keras.models.load_model(ruta_cnn)
+
+#autoencoder=tf.keras.models.load_model('./Modelo/autoencoder_LaBCNN')
+#cnn=tf.keras.models.load_model('./Modelo/LaB-CNN-fn')
 def clasificacion_imagen(img):
     classify=[]
     classes = ["Atipica","Comun","Melanoma"]

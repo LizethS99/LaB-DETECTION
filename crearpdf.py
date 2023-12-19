@@ -9,9 +9,9 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from reportlab.lib.units import inch
 from tkinter import  messagebox
 import Resultados
+import Bordes2
 
 def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
-    
     texto = "Espere un momento, los resultados se están obteniendo."    
     messagebox.showinfo("Cargando...", texto)
 
@@ -70,8 +70,8 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     elementos.append(Spacer(1, espacio2))
     asimetri = 1
     facto_asimetria = asimetri * 1.3
-    bordes = 8
-    facto_bordes = bordes * 0.1
+    bordes = Bordes2.bordes(nfile)
+    facto_bordes = int(bordes) * 0.1
     colores = 4
     facto_colores = colores * 0.5
     estructuras = int(lista4[1])+int(lista4[2])+int(lista4[3])+int(lista4[4])+int(lista4[5])
