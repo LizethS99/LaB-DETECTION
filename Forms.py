@@ -594,7 +594,8 @@ def NewPantalla():
             res6 = etrramifi.get()
             lista4.append(res6)
 
-            print(len(lista3))
+            while '' in lista4:
+                lista4.remove('')
 
             # Cambiar a la siguiente pestaña
             if not all([res1, res2, res3, res4, res5, res6  ]):

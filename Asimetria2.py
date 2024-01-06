@@ -30,9 +30,9 @@ def calcular_asimetria(imagen):
     asimetria_estructuras_vertical = np.mean(bordes_vertical)
 
     # Definir umbrales para cada métrica
-    umbral_color = 50  # Ajusta según sea necesario
-    umbral_forma = 500  # Ajusta según sea necesario
-    umbral_estructuras = 100  # Ajusta según sea necesario
+    umbral_color = 150  # Si hay pequeñas variaciones pueden depender de la luz, por lo que es mejor tener un rango intermedio
+    umbral_forma = 500  # Este nivel es adecuado para tener un balance entre la detectar asimetrías que realmente no sean tan pequeñas
+    umbral_estructuras = 200  # Detección de bordes que son más evidentes en una imagen
 
     # Calcular puntuación total
     puntuacion = 0
@@ -44,31 +44,33 @@ def calcular_asimetria(imagen):
         puntuacion += 1
 
     # Mostrar las regiones
-    plt.subplot(2, 2, 1), plt.imshow(cv2.cvtColor(region1, cv2.COLOR_BGR2RGB)), plt.title('Región 1')
-    plt.subplot(2, 2, 2), plt.imshow(cv2.cvtColor(region2, cv2.COLOR_BGR2RGB)), plt.title('Región 2')
-    plt.subplot(2, 2, 3), plt.imshow(cv2.cvtColor(region3, cv2.COLOR_BGR2RGB)), plt.title('Región 3')
-    plt.subplot(2, 2, 4), plt.imshow(cv2.cvtColor(region4, cv2.COLOR_BGR2RGB)), plt.title('Región 4')
+    plt.subplot(2, 2, 1), plt.imshow(cv2.cvtColor(region1, cv2.COLOR_BGR2RGB)), plt.title('Región 1'), plt.axis('off')
+    plt.subplot(2, 2, 2), plt.imshow(cv2.cvtColor(region2, cv2.COLOR_BGR2RGB)), plt.title('Región 2'), plt.axis('off')
+    plt.subplot(2, 2, 3), plt.imshow(cv2.cvtColor(region3, cv2.COLOR_BGR2RGB)), plt.title('Región 3'), plt.axis('off')
+    plt.subplot(2, 2, 4), plt.imshow(cv2.cvtColor(region4, cv2.COLOR_BGR2RGB)), plt.title('Región 4'), plt.axis('off')
+    plt.savefig("asimetry_analysis.png", bbox_inches='tight', pad_inches=0)
 
-    plt.show()
+    #plt.show()
     return puntuacion
 
 # Cargar la imagen
-imagen = cv2.imread('IMD002.bmp')  # Reemplaza 'tu_imagen.jpg' con la ruta de tu imagen
-
-# Verificar que la imagen se haya cargado correctamente
+imagen = cv2.imread('Extract.png')  # Reemplaza 'tu_imagen.jpg' con la ruta de tu imagen
 if imagen is None:
-    print("No se pudo cargar la imagen.")
-    exit()
+        print("No se pudo cargar la imagen.")
+        exit()
 
-# Obtener las dimensiones de la imagen
+    # Obtener las dimensiones de la imagen
 alto, ancho = imagen.shape[:2]
 
 # Dividir en dos ejes de 90 grados (horizontal y vertical)
 mitad_horizontal = alto // 2
 mitad_vertical = ancho // 2
 
-# Calcular la puntuación de asimetría
-puntuacion_asimetria = calcular_asimetria(imagen)
+# Verificar que la imagen se haya cargado correctamente
+def main():
+    
+    # Calcular la puntuación de asimetría
+    puntuacion_asimetria = calcular_asimetria(imagen)
 
-# Imprimir la puntuación
-print("Puntuación de asimetría:", puntuacion_asimetria)
+    # Imprimir la puntuación
+    return puntuacion_asimetria

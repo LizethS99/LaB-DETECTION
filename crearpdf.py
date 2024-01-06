@@ -9,7 +9,8 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from reportlab.lib.units import inch
 from tkinter import  messagebox
 import Resultados
-import Bordes2
+import LaBAsimetry
+
 
 def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     texto = "Espere un momento, los resultados se están obteniendo."    
@@ -23,7 +24,7 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
 
     # Encabezado con una imagen
     imagen_encabezado = ".\Images\LogoDocumento.png"  
-    imagen = Image(imagen_encabezado, width=2*inch, height=1*inch, hAlign='LEFT')
+    imagen = Image(imagen_encabezado, width=2.5*inch, height=2*inch, hAlign='LEFT')
     elementos.append(imagen)
 
     espacio = 0.5 * inch
@@ -37,6 +38,8 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     histo = "Historial clínico:"
     elementos.append(Paragraph(histo, style=ParagraphStyle(name='Normal', fontSize=12)))
     elementos.append(Spacer(1, espacio))
+    print("LISTA 3:",lista3)
+    print("LISTA 1",lista)
     explicacion = f"""Nombre del paciente:{lista[0]} <br /><br /> Edad: {lista[1]} <br /><br /> Sexo: {lista[2]} <br /><br /> Médico que atendió: {lista[3]}  <br /><br /> Fecha: {lista[4]}  <br /><br />
     ¿El paciente mencionó si algún miembro de su familia ha sido diagnósticado previamente con melanoma? {lista[5]} <br /><br />
     Si la respuesta fue "Sí", ¿cuál es la relación familiar y cuándo fue el diagnóstico? {lista[6]} <br /><br /> 
@@ -68,22 +71,21 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
     # Agrega espacio antes de la tabla
     
     elementos.append(Spacer(1, espacio2))
-    asimetri = 1
-    facto_asimetria = asimetri * 1.3
-    bordes = Bordes2.bordes(nfile)
-    facto_bordes = int(bordes) * 0.1
-    colores = 4
-    facto_colores = colores * 0.5
+    abcd = LaBAsimetry.main(nfile)
+    facto_asimetria = abcd[0] * 1.3
+    facto_bordes = abcd[1]* 0.1
+    facto_colores = abcd[2] * 0.5
+    print(lista4)
     estructuras = int(lista4[1])+int(lista4[2])+int(lista4[3])+int(lista4[4])+int(lista4[5])
     estructuras2 = float(estructuras)
     factorestruc = estructuras2 * 0.5
     # Crea una tabla para organizar los fragmentos de texto
     datos = [["ASIMETRÍA"],
-        [puntuacion_texto + "0 a 2", f"____{asimetri}_____", factor_texto + "1,3", f"{facto_asimetria}"],
+        [puntuacion_texto + "0 a 2", f"____{abcd[0]}_____", factor_texto + "1,3", f"{facto_asimetria}"],
         ["BORDES"],
-        [puntuacion_texto + "0 a 8", f"____{bordes}_____", factor_texto + "0,1", f"{facto_bordes}"],
+        [puntuacion_texto + "0 a 8", f"____{abcd[1]}_____", factor_texto + "0,1", f"{facto_bordes}"],
         ["COLORES"],
-        [puntuacion_texto + "1 a 6", f"____{colores}_____", factor_texto + "0,5", f"{facto_colores}"],
+        [puntuacion_texto + "1 a 6", f"____{abcd[2]}_____", factor_texto + "0,5", f"{facto_colores}"],
         ["DIF. ESTRUCTURAS"],
         [puntuacion_texto + "1 a 5", f"____{estructuras}_____", factor_texto + "0,5", f"{factorestruc}"]
     ]
@@ -133,6 +135,30 @@ def crear_pdf(file_path, nfile, lista, lista2, lista3, lista4):
         res = f"Resultados según el ABCD: {dermaTotal} Maligna "
     elementos.append(Paragraph(res, style=ParagraphStyle(name='Normal', fontSize=10)))
     elementos.append(Spacer(1, espacio))
+    elementos.append(Paragraph("Análisis de Asimetría", style=ParagraphStyle(name='Normal', fontSize=10)))
+    elementos.append(Spacer(1, espacio))
+    imagen_asimetria = "./asimetry_analysis.png"  
+    imagen_as = Image(imagen_asimetria, width=5*inch, height=3*inch, hAlign='CENTER')
+    elementos.append(imagen_as)
+    elementos.append(Spacer(1, espacio))
+    elementos.append(Paragraph("Análisis de Bordes", style=ParagraphStyle(name='Normal', fontSize=10)))
+    elementos.append(Spacer(1, espacio))
+    imagen_bordes_cortes = "./image_with_segments.png"  
+    imagen_bc = Image(imagen_bordes_cortes, width=3*inch, height=4*inch, hAlign='CENTER')
+    elementos.append(imagen_bc)
+    elementos.append(Spacer(1, espacio))
+    imagen_bordes_div = "./image_with_edges_and_scores.png"  
+    imagen_bs = Image(imagen_bordes_div, width=3*inch, height=4*inch, hAlign='CENTER')
+    elementos.append(imagen_bs)
+    elementos.append(Spacer(1, espacio))
+    elementos.append(Paragraph("Análisis de Colores", style=ParagraphStyle(name='Normal', fontSize=10)))
+    elementos.append(Spacer(1, espacio))
+    imagen_colores = "./color_analysis.png"  
+    imagen_col = Image(imagen_colores, width=6*inch, height=4*inch, hAlign='CENTER')
+    elementos.append(imagen_col)
+    elementos.append(Spacer(1, espacio))
+    
+    
     # Pie de página con advertencia
     advertencia = "El contenido de este documento no suple el diagnóstico de un médico"
     elementos.append(Paragraph(advertencia, style=ParagraphStyle(name='Normal', fontSize=10)))

@@ -1,2 +1,2 @@
-C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/GitHub/LaB-DETECTION/Modelo/autoencoder_LaBCNN
-C:/Users/yeraldi.sanchez/OneDrive - Netlogistik/Documents/GitHub/LaB-DETECTION/Modelo/LaB-CNN-fn
+C:/Users/ADMIN/Documents/GitHub/LaB-DETECTION/Modelo/autoencoder
+C:/Users/ADMIN/Documents/GitHub/LaB-DETECTION/Modelo/LaB-CNN

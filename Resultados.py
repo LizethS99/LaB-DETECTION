@@ -209,8 +209,12 @@ def Res(file, pdf,name):
                 elif img_array.shape[2]==1:
                     img_array = np.repeat(img_array,3,axis=-1)
                 img_array=np.expand_dims(img_array,axis=0)
+                print("Hay cuatro canales")
+                img_array = img_array[:, :, :, :3]
+                print("Ahora hay ", img_array.shape[2])
+            
                 code = autoencoder.predict(img_array)
-                result = cnn.predict(img_array)
+                result = cnn.predict(code)
                 for i, val in np.ndenumerate(result):
                     classify.append(val)
                 
@@ -321,5 +325,5 @@ def Res(file, pdf,name):
 
     app5.mainloop()
     return app5
-img = "IMD004.bmp" 
+
 #Res(img)
